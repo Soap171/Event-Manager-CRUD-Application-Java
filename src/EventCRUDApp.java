@@ -222,11 +222,12 @@ public class EventCRUDApp extends JFrame {
     }
 
     private void newEvent() {
-        JTextField eventNameField = new JTextField();
-        JTextField eventDateField = new JTextField();
-        JTextArea descriptionField = new JTextArea();
-        JTextField phoneNumberField = new JTextField();
+        JTextField eventNameField = new JTextField(20);
+        JTextField eventDateField = new JTextField(20);
+        JTextArea descriptionField = new JTextArea(8, 20); // Increased rows
+        JTextField phoneNumberField = new JTextField(20);
         JCheckBox notifiedCheckBox = new JCheckBox("Notified");
+
 
         Object[] message = {
                 "Event Name:", eventNameField,
