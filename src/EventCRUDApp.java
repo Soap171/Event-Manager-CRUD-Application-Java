@@ -225,10 +225,9 @@ public class EventCRUDApp extends JFrame {
     private void newEvent() {
         JTextField eventNameField = new JTextField(20);
         JTextField eventDateField = new JTextField(20);
-        JTextArea descriptionField = new JTextArea(8, 20); // Increased rows
+        JTextArea descriptionField = new JTextArea(8, 20);
         JTextField phoneNumberField = new JTextField(20);
         JCheckBox notifiedCheckBox = new JCheckBox("Notified");
-
 
         Object[] message = {
                 "Event Name:", eventNameField,
@@ -247,7 +246,8 @@ public class EventCRUDApp extends JFrame {
             boolean notified = notifiedCheckBox.isSelected();
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO events (event_name, event_date, description, phone_number, notified) VALUES (?, ?, ?, ?, ?)")) {
+                    "INSERT INTO events (event_name, event_date, description, phone_number, notified) VALUES (?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS)) {
 
                 preparedStatement.setString(1, eventName);
                 preparedStatement.setString(2, eventDate);
@@ -258,9 +258,19 @@ public class EventCRUDApp extends JFrame {
                 int rowsAffected = preparedStatement.executeUpdate();
 
                 if (rowsAffected > 0) {
+                    // Get the generated keys (if any)
+                    try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int eventId = generatedKeys.getInt(1);
+
+                            // Update the existing DefaultListModel
+                            String eventInfo = eventId + " - " + eventName + " (" + eventDate + ")";
+                            eventListModel.addElement(eventInfo);
+                        }
+                    }
+
                     JOptionPane.showMessageDialog(this, "Event added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     clearFields();
-                    loadEvents(); // Refresh the event list
                 } else {
                     JOptionPane.showMessageDialog(this, "No event added", "Error", JOptionPane.ERROR_MESSAGE);
                 }
