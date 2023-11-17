@@ -28,8 +28,9 @@ public class EventCRUDApp extends JFrame {
 
         JButton deleteButton = new JButton("Delete");
         JButton updateButton = new JButton("Update");
-        JButton newButton = new JButton("ADD a New Event");
-
+        JButton newButton = new JButton("ADD New Event");
+        newButton.setBackground(new Color(2, 9, 69));
+        newButton.setForeground(new Color(252, 252, 252));
         // Set layout for rightPanel
         JPanel rightPanel = new JPanel(new GridBagLayout());
 
@@ -81,7 +82,7 @@ public class EventCRUDApp extends JFrame {
         }
 
         // Set frame properties
-        setTitle("Event CRUD App");
+        setTitle("Event Manager");
         setSize(1000, 600); // Increased width
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
