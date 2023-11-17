@@ -94,7 +94,6 @@ public class EventCRUDApp extends JFrame {
         panel.add(label, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy--;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(component, gbc);
 
