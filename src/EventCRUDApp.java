@@ -20,38 +20,43 @@ public class EventCRUDApp extends JFrame {
         // Initialize Swing components
         eventListModel = new DefaultListModel<>();
         eventList = new JList<>(eventListModel);
-        eventNameField = new JTextField();
-        eventDateField = new JTextField();
-        descriptionField = new JTextArea();
-        phoneNumberField = new JTextField();
+        eventNameField = new JTextField(20); // Increased size
+        eventDateField = new JTextField(20); // Increased size
+        descriptionField = new JTextArea(5, 20); // Increased rows and columns
+        phoneNumberField = new JTextField(20); // Increased size
         notifiedCheckBox = new JCheckBox("Notified");
 
         JButton deleteButton = new JButton("Delete");
         JButton updateButton = new JButton("Update");
         JButton newButton = new JButton("New");
 
-        // Set layout
-        setLayout(new BorderLayout());
+        // Set layout for rightPanel
+        JPanel rightPanel = new JPanel(new GridBagLayout());
 
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(new JScrollPane(eventList), BorderLayout.CENTER);
+        // Create GridBagConstraints for consistent layout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        JPanel rightPanel = new JPanel(new GridLayout(7, 2));
-        rightPanel.add(new JLabel("Event Name:"));
-        rightPanel.add(eventNameField);
-        rightPanel.add(new JLabel("Event Date:"));
-        rightPanel.add(eventDateField);
-        rightPanel.add(new JLabel("Description:"));
-        rightPanel.add(new JScrollPane(descriptionField));
-        rightPanel.add(new JLabel("Phone Number:"));
-        rightPanel.add(phoneNumberField);
-        rightPanel.add(new JLabel("Notified:"));
-        rightPanel.add(notifiedCheckBox);
-        rightPanel.add(deleteButton);
-        rightPanel.add(updateButton);
-        rightPanel.add(newButton);
+        // Add components with labels in a single row
+        addRow(rightPanel, gbc, new JLabel("Event Name:"), eventNameField);
+        addRow(rightPanel, gbc, new JLabel("Event Date:"), eventDateField);
+        addRow(rightPanel, gbc, new JLabel("Description:"), new JScrollPane(descriptionField));
+        addRow(rightPanel, gbc, new JLabel("Phone Number:"), phoneNumberField);
+        addRow(rightPanel, gbc, new JLabel("Notified:"), notifiedCheckBox);
 
-        add(leftPanel, BorderLayout.WEST);
+        // Add buttons at the bottom
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = GridBagConstraints.REMAINDER; // Use REMAINDER to span the remaining columns
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rightPanel.add(deleteButton, gbc);
+        gbc.gridy++;
+        rightPanel.add(updateButton, gbc);
+        gbc.gridy++;
+        rightPanel.add(newButton, gbc);
+
+        add(new JScrollPane(eventList), BorderLayout.WEST);
         add(rightPanel, BorderLayout.CENTER);
 
         // Set up event listeners
@@ -77,11 +82,27 @@ public class EventCRUDApp extends JFrame {
 
         // Set frame properties
         setTitle("Event CRUD App");
-        setSize(800, 600);
+        setSize(1000, 600); // Increased width
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
+        gbc.gridx = 0;
+        gbc.gridy++;
+        panel.add(label, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy--;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(component, gbc);
+
+        gbc.gridy++;
+    }
+
+
+
 
     private void loadEvents() {
         try (Statement statement = connection.createStatement()) {
