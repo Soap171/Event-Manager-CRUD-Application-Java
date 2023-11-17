@@ -28,7 +28,7 @@ public class EventCRUDApp extends JFrame {
 
         JButton deleteButton = new JButton("Delete");
         JButton updateButton = new JButton("Update");
-        JButton newButton = new JButton("New");
+        JButton newButton = new JButton("ADD a New Event");
 
         // Set layout for rightPanel
         JPanel rightPanel = new JPanel(new GridBagLayout());
@@ -110,7 +110,8 @@ public class EventCRUDApp extends JFrame {
             while (resultSet.next()) {
                 int eventId = resultSet.getInt("event_id");
                 String eventName = resultSet.getString("event_name");
-                String eventInfo = eventId + " - " + eventName;
+                String eventDate = resultSet.getString("event_date"); // Retrieve event date
+                String eventInfo = eventId + " - " + eventName + " (" + eventDate + ")";
                 eventListModel.addElement(eventInfo);
             }
         } catch (SQLException e) {
@@ -118,6 +119,7 @@ public class EventCRUDApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Error loading events", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void displaySelectedEvent() {
         int selectedIndex = eventList.getSelectedIndex();
