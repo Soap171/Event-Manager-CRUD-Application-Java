@@ -113,7 +113,11 @@ public class EventCRUDApp extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        scheduler.scheduleAtFixedRate(this::sendNotifications, 0, 1, TimeUnit.DAYS);
+        try {
+            scheduler.scheduleAtFixedRate(this::sendNotifications, 0, 1, TimeUnit.DAYS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
@@ -135,18 +139,24 @@ public class EventCRUDApp extends JFrame {
         String formattedDate = currentDate.toString();
 
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE notified=true AND event_date='" + formattedDate + "'");
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT * FROM events WHERE notified=true AND event_date='" + formattedDate + "' AND notification_sent=false"
+            );
 
             while (resultSet.next()) {
+                int eventId = resultSet.getInt("event_id");
                 String eventName = resultSet.getString("event_name");
                 String eventDate = resultSet.getString("event_date");
                 String phoneNumber = resultSet.getString("phone_number");
 
                 // Check if the event date is today
-                if (eventDate.equals(currentDate.toString())) {
+                if (eventDate.equals(formattedDate)) {
                     // Send SMS notification
                     String notificationMessage = "Reminder: Event today - " + eventName;
                     SmsSender.sendSms(phoneNumber, notificationMessage);
+
+                    // Update the notification_sent column
+                    updateNotificationStatus(eventId);
                 }
             }
         } catch (SQLException e) {
@@ -157,6 +167,20 @@ public class EventCRUDApp extends JFrame {
 
         System.out.println("Sending notifications task completed at: " + LocalDateTime.now());
     }
+
+    private void updateNotificationStatus(int eventId) {
+        try (PreparedStatement updateStatement = connection.prepareStatement(
+                "UPDATE events SET notification_sent=true WHERE event_id=?"
+        )) {
+            updateStatement.setInt(1, eventId);
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+            JOptionPane.showMessageDialog(this, "Error updating notification status", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
 
 
