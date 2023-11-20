@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.regex.Matcher;
@@ -9,10 +7,7 @@ import java.util.regex.Pattern;
 import okhttp3.*;
 import java.sql.Connection;
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+
 import java.util.concurrent.TimeUnit;
 
 
@@ -26,7 +21,7 @@ public class EventCRUDApp extends JFrame {
     private JTextField phoneNumberField;
     private JCheckBox notifiedCheckBox;
     // Inside the EventCRUDApp class
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
 
     public EventCRUDApp() {
         // Initialize Swing components
@@ -113,11 +108,7 @@ public class EventCRUDApp extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        try {
-            scheduler.scheduleAtFixedRate(this::sendNotifications, 0, 1, TimeUnit.DAYS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new EventScheduler(this);
     }
 
     private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
@@ -133,7 +124,7 @@ public class EventCRUDApp extends JFrame {
     }
 
 
-    private void sendNotifications() {
+   void sendNotifications() {
         // Get the current date
         LocalDate currentDate = LocalDate.now();
         String formattedDate = currentDate.toString();
