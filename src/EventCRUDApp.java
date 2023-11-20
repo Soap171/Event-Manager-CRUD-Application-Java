@@ -57,7 +57,17 @@ public class EventCRUDApp extends JFrame {
         gbc.gridy++;
         rightPanel.add(newButton, gbc);
 
-        add(new JScrollPane(eventList), BorderLayout.WEST);
+        // Modify the eventList and its container
+        eventList = new JList<>(eventListModel);
+        eventList.setVisibleRowCount(10); // Set the number of visible rows as needed
+
+        // Set the preferred width of the JScrollPane containing the eventList
+        JScrollPane scrollPane = new JScrollPane(eventList);
+        scrollPane.setPreferredSize(new Dimension(500, getHeight())); // Adjust the width as needed
+
+        // Add the modified JScrollPane to the left side of the BorderLayout
+        add(scrollPane, BorderLayout.WEST);
+
         add(rightPanel, BorderLayout.CENTER);
 
         // Set up event listeners
@@ -108,11 +118,19 @@ public class EventCRUDApp extends JFrame {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM events");
 
+            // Clear the existing data from the DefaultListModel
+            eventListModel.clear();
+
             while (resultSet.next()) {
                 int eventId = resultSet.getInt("event_id");
                 String eventName = resultSet.getString("event_name");
-                String eventDate = resultSet.getString("event_date"); // Retrieve event date
-                String eventInfo = eventId + " - " + eventName + " (" + eventDate + ")";
+                String eventDate = resultSet.getString("event_date");
+                String eventDescription = resultSet.getString("description");
+
+                // Concatenate the information into a single string
+                String eventInfo = eventId + " - " + eventName + " (" + eventDate + ") - " + eventDescription;
+
+                // Add the string to the DefaultListModel
                 eventListModel.addElement(eventInfo);
             }
         } catch (SQLException e) {
@@ -120,6 +138,8 @@ public class EventCRUDApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Error loading events", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
 
     private void displaySelectedEvent() {
@@ -213,6 +233,7 @@ public class EventCRUDApp extends JFrame {
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(this, "Event updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     eventListModel.setElementAt(eventId + " - " + eventName, selectedIndex);
+                    loadEvents();
                 } else {
                     JOptionPane.showMessageDialog(this, "No event updated", "Error", JOptionPane.ERROR_MESSAGE);
                 }
