@@ -251,57 +251,72 @@ public class EventCRUDApp extends JFrame {
         JTextField phoneNumberField = new JTextField(20);
         JCheckBox notifiedCheckBox = new JCheckBox("Notified");
 
-        Object[] message = {
-                "Event Name:", eventNameField,
-                "Event Date:", eventDateField,
-                "Description:", new JScrollPane(descriptionField),
-                "Phone Number:", phoneNumberField,
-                "Notified:", notifiedCheckBox
-        };
+        boolean validInput = false;
 
-        int option = JOptionPane.showConfirmDialog(this, message, "New Event", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            String eventName = eventNameField.getText();
-            String eventDate = eventDateField.getText();
-            String description = descriptionField.getText();
-            String phoneNumber = phoneNumberField.getText();
-            boolean notified = notifiedCheckBox.isSelected();
+        while (!validInput) {
+            Object[] message = {
+                    "Event Name:", eventNameField,
+                    "Event Date:", eventDateField,
+                    "Description:", new JScrollPane(descriptionField),
+                    "Phone Number:", phoneNumberField,
+                    "Notified:", notifiedCheckBox
+            };
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO events (event_name, event_date, description, phone_number, notified) VALUES (?, ?, ?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS)) {
+            int option = JOptionPane.showConfirmDialog(this, message, "New Event", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                String eventName = eventNameField.getText().trim();
+                String eventDate = eventDateField.getText().trim();
+                String description = descriptionField.getText().trim();
+                String phoneNumber = phoneNumberField.getText().trim();
+                boolean notified = notifiedCheckBox.isSelected();
 
-                preparedStatement.setString(1, eventName);
-                preparedStatement.setString(2, eventDate);
-                preparedStatement.setString(3, description);
-                preparedStatement.setString(4, phoneNumber);
-                preparedStatement.setBoolean(5, notified);
-
-                int rowsAffected = preparedStatement.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    // Get the generated keys (if any)
-                    try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                        if (generatedKeys.next()) {
-                            int eventId = generatedKeys.getInt(1);
-
-                            // Update the existing DefaultListModel
-                            String eventInfo = eventId + " - " + eventName + " (" + eventDate + ")";
-                            eventListModel.addElement(eventInfo);
-                        }
-                    }
-
-                    JOptionPane.showMessageDialog(this, "Event added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    clearFields();
+                // Validate input
+                if (eventName.isEmpty() || eventDate.isEmpty() || description.isEmpty() || phoneNumber.isEmpty())  {
+                    JOptionPane.showMessageDialog(this, "All the fileds are required", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(this, "No event added", "Error", JOptionPane.ERROR_MESSAGE);
+                    validInput = true; // Set to true to exit the loop
+                    // Additional validations and processing can be added here
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(
+                            "INSERT INTO events (event_name, event_date, description, phone_number, notified) VALUES (?, ?, ?, ?, ?)",
+                            Statement.RETURN_GENERATED_KEYS)) {
+
+                        preparedStatement.setString(1, eventName);
+                        preparedStatement.setString(2, eventDate);
+                        preparedStatement.setString(3, description);
+                        preparedStatement.setString(4, phoneNumber);
+                        preparedStatement.setBoolean(5, notified);
+
+                        int rowsAffected = preparedStatement.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            // Get the generated keys (if any)
+                            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                                if (generatedKeys.next()) {
+                                    int eventId = generatedKeys.getInt(1);
+
+                                    // Update the existing DefaultListModel
+                                    String eventInfo = eventId + " - " + eventName + " (" + eventDate + ")";
+                                    eventListModel.addElement(eventInfo);
+                                }
+                            }
+
+                            JOptionPane.showMessageDialog(this, "Event added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            clearFields();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "No event added", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Error adding event", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error adding event", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // User clicked Cancel or closed the dialog
+                validInput = true; // Set to true to exit the loop without adding an event
             }
         }
     }
+
 
     private void clearFields() {
         eventNameField.setText("");
