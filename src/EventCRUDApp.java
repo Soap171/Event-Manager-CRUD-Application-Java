@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import okhttp3.*;
+import java.sql.Connection;
+
 
 public class EventCRUDApp extends JFrame {
     private Connection connection;
@@ -331,6 +334,44 @@ public class EventCRUDApp extends JFrame {
     }
 
 
+    public class SmsSender {
+
+        private static final String API_URL = "https://doubtful-hare-sweatshirt.cyclic.app/send-sms";
+        private static final String API_ID = "5967741";
+        private static final String API_TOKEN =
+                "zw8uyfSJObgc3gL7n5bvhNthk7xrrY52nsXJTaNG28pBc79KpBdlOYUozxTGR9eB3drbtQDOYv9w43hQlc5KtbnRSiPATZ3Ic8rCO64EDqR6HL7LQYtrvX1DdI7jHTPlK3a4qrsKHxtm" +
+                        "J7sLd3GYFhmA9T7UVGDf9lpYsr56s0SSgyrli3cShCT9xUE05ahZlH2DbRNLoKVkSV16ZMj6rrpVgFv83RncAH2yE8mDUc3seDEnCBMuDYp9dkWHTlw20pKIAmgHHeBwPRy53ezaqi5kpOLIVe0wNuFcTn0uBQm04XCBtx5uGz1S" +
+                        "2igOMOspx24Sn810Y8bCUYYMV4xBDTEz0IaY0fxrkDfFybiRV3VoozBt5ZOT1Slk2L2YcmSnzc7WVCbLDsamUSdZWMjDzMm2O0xV86NpmVGvqnENDujgvjcQiNKmQx5XNvGMvBkpf6rNkYekHdM09gRlZV9SrdWjT94zQIVgehwYI" +
+                        "WN5TPyIrGIRX1PSPDx19MFLsI5kmihy2C9fLshwyOstFRR52l5hXeYE2MCyKRbZWt3dbkkDlEdxrqEW5veajq16Egn2ENjwi8CoK2I1v1u0OWhoQ6Xg2X3xGJNdmkwfdqlanDbwig1LS5L4oboeDmMu53kfoaQ0907WIOSnNjSqgffIbg6l" +
+                        "VxoOST6wY2Weker4IgRg57ie9Xo0eFnY3kSnhrBZ9prYtGDMV8u8CXFFVCoo7hJSR8x6FU0p3gXr5MtSwxbVNHnSo2SEWH3K4E1twyzr0NQIR3P3X4LqFLXeEFX3GBiHzoww87LMmucZgudelDiYW8jfTDpfz9aVMLxxGIfglaK3ThuFDheFTx" +
+                        "ptAnv8IUD7V0AZsOSN4jRCPMsNr0vGBecxFjVQEhdoArtNHd5NxrAFuSTJH7thgKhmXD6KNecIqP6sY7QKOqgXL58zEBvkBp8ucker3PitrvYasEBmdSwPoQqjt8ORFRX7at1BvibGzZ8OeWE64Ypfemzsu3lO0XfOyNpphbBrkiTOnXSm";
+
+
+        public static void sendSms(String phoneNumber, String message) {
+            OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, "{\"message\":\"" + message + "\",\"phoneNumber\":\"" + phoneNumber + "\"}");
+
+            Request request = new Request.Builder()
+                    .url(API_URL)
+                    .method("POST", body)
+                    .addHeader("Authorization", "Bearer " + API_TOKEN)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Api-Id", API_ID)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    System.out.println("SMS sent successfully");
+                } else {
+                    System.out.println("Failed to send SMS. HTTP Status Code: " + response.code());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     private void clearFields() {
         eventNameField.setText("");
         eventDateField.setText("");
@@ -341,5 +382,6 @@ public class EventCRUDApp extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(EventCRUDApp::new);
+        SmsSender.sendSms("0740455459", "Hello, World!");
     }
 }
