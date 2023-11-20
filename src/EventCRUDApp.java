@@ -126,9 +126,11 @@ public class EventCRUDApp extends JFrame {
                 String eventName = resultSet.getString("event_name");
                 String eventDate = resultSet.getString("event_date");
                 String eventDescription = resultSet.getString("description");
+                boolean notified = resultSet.getBoolean("notified");
 
-                // Concatenate the information into a single string
-                String eventInfo = eventId + " - " + eventName + " (" + eventDate + ") - " + eventDescription;
+                // Build the information string, including the notified status
+                String eventInfo = eventId + " - " + eventName + " (" + eventDate + ") - " + eventDescription
+                        + (notified ? " - Notified" : " - Not Notified");
 
                 // Add the string to the DefaultListModel
                 eventListModel.addElement(eventInfo);
