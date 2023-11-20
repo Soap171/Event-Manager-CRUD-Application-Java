@@ -3,10 +3,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import okhttp3.*;
 import java.sql.Connection;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class EventCRUDApp extends JFrame {
@@ -18,6 +25,8 @@ public class EventCRUDApp extends JFrame {
     private JTextArea descriptionField;
     private JTextField phoneNumberField;
     private JCheckBox notifiedCheckBox;
+    // Inside the EventCRUDApp class
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public EventCRUDApp() {
         // Initialize Swing components
@@ -103,6 +112,8 @@ public class EventCRUDApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        scheduler.scheduleAtFixedRate(this::sendNotifications, 0, 1, TimeUnit.DAYS);
     }
 
     private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
@@ -117,6 +128,35 @@ public class EventCRUDApp extends JFrame {
         gbc.gridy++;
     }
 
+
+    private void sendNotifications() {
+        // Get the current date
+        LocalDate currentDate = LocalDate.now();
+        String formattedDate = currentDate.toString();
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE notified=true AND event_date='" + formattedDate + "'");
+
+            while (resultSet.next()) {
+                String eventName = resultSet.getString("event_name");
+                String eventDate = resultSet.getString("event_date");
+                String phoneNumber = resultSet.getString("phone_number");
+
+                // Check if the event date is today
+                if (eventDate.equals(currentDate.toString())) {
+                    // Send SMS notification
+                    String notificationMessage = "Reminder: Event today - " + eventName;
+                    SmsSender.sendSms(phoneNumber, notificationMessage);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+            JOptionPane.showMessageDialog(this, "Error sending notifications", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        System.out.println("Sending notifications task completed at: " + LocalDateTime.now());
+    }
 
 
 
