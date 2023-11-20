@@ -217,30 +217,37 @@ public class EventCRUDApp extends JFrame {
             String description = descriptionField.getText();
             String phoneNumber = phoneNumberField.getText();
             boolean notified = notifiedCheckBox.isSelected();
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE events SET event_name=?, event_date=?, description=?, phone_number=?, notified=? WHERE event_id=?")) {
-
-                preparedStatement.setString(1, eventName);
-                preparedStatement.setString(2, eventDate);
-                preparedStatement.setString(3, description);
-                preparedStatement.setString(4, phoneNumber);
-                preparedStatement.setBoolean(5, notified);
-                preparedStatement.setInt(6, eventId);
-
-                int rowsAffected = preparedStatement.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(this, "Event updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    eventListModel.setElementAt(eventId + " - " + eventName, selectedIndex);
-                    loadEvents();
-                } else {
-                    JOptionPane.showMessageDialog(this, "No event updated", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error updating event", "Error", JOptionPane.ERROR_MESSAGE);
+            if (eventName.isEmpty() || eventDate.isEmpty() || description.isEmpty() || phoneNumber.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All the fields are required", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+            else{
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "UPDATE events SET event_name=?, event_date=?, description=?, phone_number=?, notified=? WHERE event_id=?")) {
+
+                    preparedStatement.setString(1, eventName);
+                    preparedStatement.setString(2, eventDate);
+                    preparedStatement.setString(3, description);
+                    preparedStatement.setString(4, phoneNumber);
+                    preparedStatement.setBoolean(5, notified);
+                    preparedStatement.setInt(6, eventId);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(this, "Event updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        eventListModel.setElementAt(eventId + " - " + eventName, selectedIndex);
+                        loadEvents();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No event updated", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error updating event", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+
         }
     }
 
