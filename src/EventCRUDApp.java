@@ -27,8 +27,11 @@ public class EventCRUDApp extends JFrame {
         notifiedCheckBox = new JCheckBox("Notified");
 
         JButton deleteButton = new JButton("Delete");
+        deleteButton.setFocusPainted(false);
         JButton updateButton = new JButton("Update");
+        updateButton.setFocusPainted(false);
         JButton newButton = new JButton("ADD New Event");
+        newButton.setFocusPainted(false);
         newButton.setBackground(new Color(2, 9, 69));
         newButton.setForeground(new Color(252, 252, 252));
         // Set layout for rightPanel
