@@ -238,6 +238,10 @@ public class EventCRUDApp extends JFrame {
                         JOptionPane.showMessageDialog(this, "Event updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         eventListModel.setElementAt(eventId + " - " + eventName, selectedIndex);
                         loadEvents();
+                        eventNameField.setText("");
+                        eventDateField.setText("");
+                        descriptionField.setText("");
+                        phoneNumberField.setText("");
                     } else {
                         JOptionPane.showMessageDialog(this, "No event updated", "Error", JOptionPane.ERROR_MESSAGE);
                     }
