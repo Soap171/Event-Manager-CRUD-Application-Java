@@ -313,13 +313,11 @@ public class EventCRUDApp extends JFrame {
                                     // Update the existing DefaultListModel
                                     String eventInfo = eventId + " - " + eventName + " (" + eventDate + ")";
                                     eventListModel.addElement(eventInfo);
+
+                                    // Send SMS notification
+                                    SmsSender.sendSms(phoneNumber, "New event added: " + eventName +" Date is "+ eventDate);
                                 }
                             }
-
-                            JOptionPane.showMessageDialog(this, "Event added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            clearFields();
-                        } else {
-                            JOptionPane.showMessageDialog(this, "No event added", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -382,6 +380,6 @@ public class EventCRUDApp extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(EventCRUDApp::new);
-        SmsSender.sendSms("0740455459", "Hello, World!");
+
     }
 }
