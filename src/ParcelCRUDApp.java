@@ -17,6 +17,7 @@ public class ParcelCRUDApp extends JFrame {
     private JButton deleteParcelButton;
     private JButton updateParcelButton;
     private JButton updateStatusButton;
+    private JButton addParcelButton;  // New button for adding a parcel
 
     private JPanel rightPanel;  // Assuming you have a JPanel named rightPanel
     public ParcelCRUDApp() {
@@ -34,12 +35,23 @@ public class ParcelCRUDApp extends JFrame {
         deleteParcelButton = new JButton("Delete Parcel");
         updateParcelButton = new JButton("Update Parcel");
         updateStatusButton = new JButton("Update Status");
-
-        // Create GridBagConstraints for parcels components
+        addParcelButton = new JButton("Add Parcel");
+        // Initialize GridBagConstraints for parcels components
         GridBagConstraints gbcParcels = new GridBagConstraints();
         gbcParcels.anchor = GridBagConstraints.WEST;
         gbcParcels.insets = new Insets(5, 5, 5, 5);
 
+        gbcParcels.gridy++;
+        rightPanel.add(addParcelButton, gbcParcels);
+
+        addParcelButton.addActionListener(e -> addNewParcel());
+
+        // Create GridBagConstraints for parcels components
+        gbcParcels = new GridBagConstraints();
+        gbcParcels.anchor = GridBagConstraints.WEST;
+        gbcParcels.insets = new Insets(5, 5, 5, 5);
+
+        // Add parcels components with labels in a single row
         // Add parcels components with labels in a single row
         addRow(rightPanel, gbcParcels, new JLabel("Destination:"), destinationField);
         addRow(rightPanel, gbcParcels, new JLabel("Sender Contact:"), senderContactField);
@@ -76,10 +88,8 @@ public class ParcelCRUDApp extends JFrame {
         setTitle("Parcel CRUD App");
         setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);  // Center the frame
+        setLocationRelativeTo(null);
         setVisible(true);
-
-
 
         if (connectToDatabase()) {
             loadParcels();
@@ -95,8 +105,10 @@ public class ParcelCRUDApp extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(component, gbc);
 
-        gbc.gridy++;
+        // Remove the following line
+        // gbc.gridy++;
     }
+
 
     // Database connection setup
     private boolean connectToDatabase() {
@@ -288,6 +300,44 @@ public class ParcelCRUDApp extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error loading parcels", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addNewParcel() {
+        String destination = destinationField.getText();
+        String senderContact = senderContactField.getText();
+        String receiverContact = receiverContactField.getText();
+        String fee = feeField.getText();
+        String weight = weightField.getText();
+        String status = (String) statusComboBox.getSelectedItem();
+
+        if (destination.isEmpty() || senderContact.isEmpty() || receiverContact.isEmpty() || fee.isEmpty() || weight.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields are required", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO parcel_table (destination, sender_contact, receiver_contact, fee, weight, status) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+
+                preparedStatement.setString(1, destination);
+                preparedStatement.setString(2, senderContact);
+                preparedStatement.setString(3, receiverContact);
+                preparedStatement.setString(4, fee);
+                preparedStatement.setString(5, weight);
+                preparedStatement.setString(6, status);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Parcel added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    clearParcelFields();
+                    loadParcels();  // Refresh the list of parcels
+                } else {
+                    JOptionPane.showMessageDialog(this, "No parcel added", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error adding parcel", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
