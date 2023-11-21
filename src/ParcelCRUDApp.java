@@ -281,6 +281,8 @@ public class ParcelCRUDApp extends JFrame {
         // You can use the SmsSender class or any other notification mechanism
     }
 
+
+
     private void loadParcels() {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM parcel_table");
@@ -291,10 +293,12 @@ public class ParcelCRUDApp extends JFrame {
             while (resultSet.next()) {
                 int parcelId = resultSet.getInt("parcel_id");
                 String destination = resultSet.getString("destination");
+                String senderContact = resultSet.getString("sender_contact");
+                String receiverContact = resultSet.getString("receiver_contact");
                 String status = resultSet.getString("status");
 
-                // Build the information string, including the parcel_id and status
-                String parcelInfo = parcelId + " - " + destination + " - " + status;
+                // Build the information string, including all details
+                String parcelInfo = String.format("%d - %s - Sender Contact: %s - Receiver Contact: %s - %s", parcelId, destination, senderContact, receiverContact, status);
 
                 // Add the string to the DefaultListModel
                 parcelListModel.addElement(parcelInfo);
@@ -304,6 +308,9 @@ public class ParcelCRUDApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Error loading parcels", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+// ...
+
 
     private void addNewParcel() {
         String destination = destinationField.getText();
