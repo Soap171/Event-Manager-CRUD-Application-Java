@@ -211,10 +211,61 @@ public class SchedulesForm extends JFrame {
     }
 
     private void deleteSchedule() {
-        // ... (unchanged code for deleting)
+        String selectedTrainName = (String) trainComboBox.getSelectedItem();
+        String arrivalTime = arrivalTimeField.getText();
+        String departureTime = departureTimeField.getText();
+        String day = dayField.getText();
 
-        populateSchedulesTable();
+        if (selectedTrainName == null || selectedTrainName.isEmpty() || arrivalTime.isEmpty() || departureTime.isEmpty() || day.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirmDialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this schedule?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        if (confirmDialogResult != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+
+            // Get the trainId based on the selected train name
+            PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
+            selectTrainIdStatement.setString(1, selectedTrainName);
+            ResultSet resultSet = selectTrainIdStatement.executeQuery();
+
+            int trainId = -1;
+            if (resultSet.next()) {
+                trainId = resultSet.getInt("trainId");
+            }
+
+            // Delete the schedule from the Schedules table
+            PreparedStatement deleteScheduleStatement = connection.prepareStatement("DELETE FROM Schedules WHERE train_id = ? AND arrivalTime = ? AND departureTime = ? AND day = ?");
+            deleteScheduleStatement.setInt(1, trainId);
+            deleteScheduleStatement.setString(2, arrivalTime);
+            deleteScheduleStatement.setString(3, departureTime);
+            deleteScheduleStatement.setString(4, day);
+            deleteScheduleStatement.executeUpdate();
+
+            resultSet.close();
+            selectTrainIdStatement.close();
+            deleteScheduleStatement.close();
+            populateSchedulesTable();
+            connection.close();
+
+            // Clear the fields after deleting a schedule
+            arrivalTimeField.setText("");
+            departureTimeField.setText("");
+            dayField.setText("");
+
+            JOptionPane.showMessageDialog(this, "Schedule deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error deleting schedule from the database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
