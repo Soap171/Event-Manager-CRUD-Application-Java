@@ -35,7 +35,7 @@ public class ParcelCRUDApp extends JFrame {
         receiverContactField = new JTextField(20);
         feeField = new JTextField(20);
         weightField = new JTextField(20);
-        statusComboBox = new JComboBox<>(new String[]{"Pending", "Shipped", "Delivered"});
+        statusComboBox = new JComboBox<>(new String[]{"Pending", "Shipped", "Delivered", "Failed"});
         deleteParcelButton = new JButton("Delete Parcel");
         updateParcelButton = new JButton("Update Parcel");
         updateStatusButton = new JButton("Update Status");
@@ -366,7 +366,7 @@ public class ParcelCRUDApp extends JFrame {
         }
     }
 
-  
+
 
 
     private void loadParcels() {
