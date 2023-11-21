@@ -71,6 +71,7 @@ public class ParcelCRUDApp extends JFrame {
         deleteParcelButton.addActionListener(e -> deleteParcel());
         updateParcelButton.addActionListener(e -> updateParcel());
         updateStatusButton.addActionListener(e -> updateParcelStatus());
+        addParcelButton.addActionListener(e -> addNewParcel());
 
         // Other initialization code...
 
