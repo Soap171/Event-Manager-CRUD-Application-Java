@@ -3,9 +3,11 @@ import java.awt.*;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import okhttp3.*;
 
 public class ParcelCRUDApp extends JFrame {
-    private Connection connection;
+
+    private java.sql.Connection connection;
     private JList<String> parcelList;
     private DefaultListModel<String> parcelListModel;
     private JTextField destinationField;
@@ -121,6 +123,51 @@ public class ParcelCRUDApp extends JFrame {
         panel.add(component, gbc);
     }
 
+    public class SmsSender {
+
+        private static final String SMS_API_URL = "https://api.smshub.lk/api/v1/send/single";
+        private static final String API_TOKEN = "zw8uyfSJObgc3gL7n5bvhNthk7xrrY52nsXJTaNG28pBc79KpBdlOYUozxTGR9eB3drbtQDOYv9w43hQlc5KtbnRSiPATZ3Ic8rCO64EDqR6HL7LQYtrvX1DdI7jHTPlK3a4qrsKHxtmJ7sLd3GYFhmA9T7UVGDf9lpYsr56s0SSgyrli3cShCT9xUE05ahZlH2DbRNLoKVkSV16ZMj6rrpVgFv83RncAH2yE8mDUc3seDEnCBMuDYp9dkWHTlw20pKIAmgHHeBwPRy53ezaqi5kpOLIVe0wNuFcTn0uBQm04XCBtx5uGz1S2igOMOspx24Sn810Y8bCUYYMV4xBDTEz0IaY0fxrkDfFybiRV3VoozBt5ZOT1Slk2L2YcmSnzc7WVCbLDsamUSdZWMjDzMm2O0xV86NpmVGvqnENDujgvjcQiNKmQx5XNvGMvBkpf6rNkYekHdM09gRlZV9SrdWjT94zQIVgehwYIWN5TPyIrGIRX1PSPDx19MFLsI5kmihy2C9fLshwyOstFRR52l5hXeYE2MCyKRbZWt3dbkkDlEdxrqEW5veajq16Egn2ENjwi8CoK2I1v1u0OWhoQ6Xg2X3xGJNdmkwfdqlanDbwig1LS5L4oboeDmMu53kfoaQ0907WIOSnNjSqgffIbg6lVxoOST6wY2Weker4IgRg57ie9Xo0eFnY3kSnhrBZ9prYtGDMV8u8CXFFVCoo7hJSR8x6FU0p3gXr5MtSwxbVNHnSo2SEWH3K4E1twyzr0NQIR3P3X4LqFLXeEFX3GBiHzoww87LMmucZgudelDiYW8jfTDpfz9aVMLxxGIfglaK3ThuFDheFTxptAnv8IUD7V0AZsOSN4jRCPMsNr0vGBecxFjVQEhdoArtNHd5NxrAFuSTJH7thgKhmXD6KNecIqP6sY7QKOqgXL58zEBvkBp8ucker3PitrvYasEBmdSwPoQqjt8ORFRX7at1BvibGzZ8OeWE64Ypfemzsu3lO0XfOyNpphbBrkiTOnXSm";
+
+        public static void sendSms(String phoneNumber, String message) {
+            OkHttpClient client = new OkHttpClient().newBuilder().build();
+            MediaType mediaType = MediaType.parse("application/json");
+
+            String smsBody = String.format("{\n \"message\":\"%s\",\n \"phoneNumber\":\"%s\"\n}", message, phoneNumber);
+
+            RequestBody body = RequestBody.create(mediaType, smsBody);
+
+            Request request = new Request.Builder()
+                    .url(SMS_API_URL)
+                    .method("POST", body)
+                    .addHeader("Authorization", API_TOKEN)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                // Handle the response if needed
+                System.out.println(response.body().string());
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Handle the exception, e.g., log the error or show a message
+            }
+        }
+    }
+
+    private void notifySenderReceiver(int parcelId, String newStatus) {
+        String senderContact = senderContactField.getText();
+        String receiverContact = receiverContactField.getText();
+
+        // Notify sender
+        if (!senderContact.isEmpty()) {
+            SmsSender.sendSms(senderContact, String.format("Parcel ID %d status updated to: %s", parcelId, newStatus));
+        }
+
+        // Notify receiver
+        if (!receiverContact.isEmpty() && !receiverContact.equals(senderContact)) {
+            SmsSender.sendSms(receiverContact, String.format("Parcel ID %d status updated to: %s", parcelId, newStatus));
+        }
+    }
 
 
 
@@ -319,11 +366,7 @@ public class ParcelCRUDApp extends JFrame {
         }
     }
 
-    private void notifySenderReceiver(int parcelId, String newStatus) {
-        // Implementation for notifying sender and receiver
-        // You can use the SmsSender class or any other notification mechanism
-    }
-
+  
 
 
     private void loadParcels() {
