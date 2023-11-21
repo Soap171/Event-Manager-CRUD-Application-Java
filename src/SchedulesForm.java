@@ -21,7 +21,7 @@ public class SchedulesForm extends JFrame {
         JLabel trainLabel = new JLabel("Train:");
         JLabel arrivalTimeLabel = new JLabel("Arrival Time:");
         JLabel departureTimeLabel = new JLabel("Departure Time:");
-        JLabel dayLabel = new JLabel("Day:");
+        JLabel dayLabel = new JLabel("Destination:");
 
         trainComboBox = new JComboBox<>();
         populateTrainComboBox();
@@ -59,7 +59,7 @@ public class SchedulesForm extends JFrame {
         tableModel.addColumn("Train");
         tableModel.addColumn("Arrival Time");
         tableModel.addColumn("Departure Time");
-        tableModel.addColumn("Day");
+        tableModel.addColumn("Destination");
 
         schedulesTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(schedulesTable);
@@ -133,14 +133,14 @@ public class SchedulesForm extends JFrame {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT Trains.name, Schedules.arrivalTime, Schedules.departureTime, Schedules.day FROM Schedules JOIN Trains ON Schedules.train_id = Trains.trainId");
+            ResultSet resultSet = statement.executeQuery("SELECT Trains.name, Schedules.arrivalTime, Schedules.departureTime, Schedules.destination FROM Schedules JOIN Trains ON Schedules.train_id = Trains.trainId");
 
             while (resultSet.next()) {
                 Object[] rowData = {
                         resultSet.getString("name"),
                         resultSet.getString("arrivalTime"),
                         resultSet.getString("departureTime"),
-                        resultSet.getString("day")
+                        resultSet.getString("destination")
                 };
                 tableModel.addRow(rowData);
             }
@@ -178,7 +178,7 @@ public class SchedulesForm extends JFrame {
             }
 
             // Insert the schedule into the Schedules table
-            PreparedStatement insertScheduleStatement = connection.prepareStatement("INSERT INTO Schedules (train_id, arrivalTime, departureTime, day) VALUES (?, ?, ?, ?)");
+            PreparedStatement insertScheduleStatement = connection.prepareStatement("INSERT INTO Schedules (train_id, arrivalTime, departureTime, destination) VALUES (?, ?, ?, ?)");
             insertScheduleStatement.setInt(1, trainId);
             insertScheduleStatement.setString(2, arrivalTime);
             insertScheduleStatement.setString(3, departureTime);
@@ -229,7 +229,7 @@ public class SchedulesForm extends JFrame {
             }
 
             // Update the schedule in the Schedules table
-            PreparedStatement updateScheduleStatement = connection.prepareStatement("UPDATE Schedules SET arrivalTime = ?, departureTime = ?, day = ? WHERE train_id = ?");
+            PreparedStatement updateScheduleStatement = connection.prepareStatement("UPDATE Schedules SET arrivalTime = ?, departureTime = ?, destination = ? WHERE train_id = ?");
             updateScheduleStatement.setString(1, arrivalTime);
             updateScheduleStatement.setString(2, departureTime);
             updateScheduleStatement.setString(3, day);
@@ -288,7 +288,7 @@ public class SchedulesForm extends JFrame {
             }
 
             // Delete the schedule from the Schedules table
-            PreparedStatement deleteScheduleStatement = connection.prepareStatement("DELETE FROM Schedules WHERE train_id = ? AND arrivalTime = ? AND departureTime = ? AND day = ?");
+            PreparedStatement deleteScheduleStatement = connection.prepareStatement("DELETE FROM Schedules WHERE train_id = ? AND arrivalTime = ? AND departureTime = ? AND destination = ?");
             deleteScheduleStatement.setInt(1, trainId);
             deleteScheduleStatement.setString(2, arrivalTime);
             deleteScheduleStatement.setString(3, departureTime);
