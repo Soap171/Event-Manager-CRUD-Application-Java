@@ -70,8 +70,8 @@ public class Dashboard extends JFrame {
     }
 
     private void openScheduleManagement() {
-        // Implement the logic to open the Schedule Management section
-        JOptionPane.showMessageDialog(this, "Opening Schedule Management", "Schedule Management", JOptionPane.INFORMATION_MESSAGE);
+
+        SchedulesForm form = new SchedulesForm();
     }
 
     public static void main(String[] args) {
