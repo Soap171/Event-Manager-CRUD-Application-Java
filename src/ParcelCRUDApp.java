@@ -71,17 +71,22 @@ public class ParcelCRUDApp extends JFrame {
         deleteParcelButton.addActionListener(e -> deleteParcel());
         updateParcelButton.addActionListener(e -> updateParcel());
         updateStatusButton.addActionListener(e -> updateParcelStatus());
-        addParcelButton.addActionListener(e -> addNewParcel());
 
         // Other initialization code...
 
         // Set layout for the main frame
         setLayout(new BorderLayout());
-        add(new JScrollPane(parcelList), BorderLayout.WEST);
+
+        // Set the preferred width for the JScrollPane containing the JList
+        int parcelTableWidth = 500; // Adjust the width as needed
+        JScrollPane scrollPane = new JScrollPane(parcelList);
+        scrollPane.setPreferredSize(new Dimension(parcelTableWidth, getHeight()));
+
+        add(scrollPane, BorderLayout.WEST);
         add(rightPanel, BorderLayout.CENTER);
 
         // Set up the frame properties
-        setTitle("Parcel CRUD App");
+        setTitle("SwiftRail (Railway Management)");
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
