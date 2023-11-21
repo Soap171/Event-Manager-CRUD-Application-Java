@@ -20,6 +20,8 @@ public class ParcelCRUDApp extends JFrame {
     private JButton addParcelButton;  // New button for adding a parcel
 
     private JPanel rightPanel;  // Assuming you have a JPanel named rightPanel
+    private JTextField searchField;
+    private JButton searchButton;
     public ParcelCRUDApp() {
         rightPanel = new JPanel();  // Instantiate rightPanel
 
@@ -71,6 +73,16 @@ public class ParcelCRUDApp extends JFrame {
         deleteParcelButton.addActionListener(e -> deleteParcel());
         updateParcelButton.addActionListener(e -> updateParcel());
         updateStatusButton.addActionListener(e -> updateParcelStatus());
+
+        searchField = new JTextField(10);
+        searchButton = new JButton("Search");
+
+        // Add search components to the right panel
+        addRow(rightPanel, gbcParcels, new JLabel("Search Parcel by ID:"), searchField);
+        addRow(rightPanel, gbcParcels, new JLabel(""), searchButton); // Empty label for spacing
+
+        // Set up event listener for the search button
+        searchButton.addActionListener(e -> searchParcel());
 
         // Other initialization code...
 
@@ -127,6 +139,37 @@ public class ParcelCRUDApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Error connecting to the database", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    private void searchParcel() {
+        String searchIdText = searchField.getText();
+
+        // Check if the search ID is a valid integer
+        try {
+            int searchId = Integer.parseInt(searchIdText);
+
+            // Find the index of the parcel with the specified ID in the parcel list
+            int index = findParcelIndexById(searchId);
+
+            if (index != -1) {
+                // Set the selection to the found index
+                parcelList.setSelectedIndex(index);
+                parcelList.ensureIndexIsVisible(index); // Scroll to the selected index if needed
+            } else {
+                JOptionPane.showMessageDialog(this, "Parcel with ID " + searchId + " not found", "Not Found", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid parcel ID", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private int findParcelIndexById(int searchId) {
+        for (int i = 0; i < parcelListModel.size(); i++) {
+            int parcelId = getParcelId(i);
+            if (parcelId == searchId) {
+                return i; // Found the parcel with the specified ID
+            }
+        }
+        return -1; // Parcel not found
     }
 
     private void deleteParcel() {
