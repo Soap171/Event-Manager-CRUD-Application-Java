@@ -36,23 +36,16 @@ public class ParcelCRUDApp extends JFrame {
         updateParcelButton = new JButton("Update Parcel");
         updateStatusButton = new JButton("Update Status");
         addParcelButton = new JButton("Add Parcel");
+
+        // Set layout for the right panel
+        rightPanel.setLayout(new GridBagLayout());
+
         // Initialize GridBagConstraints for parcels components
         GridBagConstraints gbcParcels = new GridBagConstraints();
         gbcParcels.anchor = GridBagConstraints.WEST;
         gbcParcels.insets = new Insets(5, 5, 5, 5);
 
-        gbcParcels.gridy++;
-        rightPanel.add(addParcelButton, gbcParcels);
-
-        addParcelButton.addActionListener(e -> addNewParcel());
-
-        // Create GridBagConstraints for parcels components
-        gbcParcels = new GridBagConstraints();
-        gbcParcels.anchor = GridBagConstraints.WEST;
-        gbcParcels.insets = new Insets(5, 5, 5, 5);
-
-        // Add parcels components with labels in a single row
-        // Add parcels components with labels in a single row
+        // Add parcels components with labels and input fields in a single row
         addRow(rightPanel, gbcParcels, new JLabel("Destination:"), destinationField);
         addRow(rightPanel, gbcParcels, new JLabel("Sender Contact:"), senderContactField);
         addRow(rightPanel, gbcParcels, new JLabel("Receiver Contact:"), receiverContactField);
@@ -60,7 +53,7 @@ public class ParcelCRUDApp extends JFrame {
         addRow(rightPanel, gbcParcels, new JLabel("Weight:"), weightField);
         addRow(rightPanel, gbcParcels, new JLabel("Status:"), statusComboBox);
 
-        // Add parcel buttons at the bottom
+        // Add buttons at the bottom
         gbcParcels.gridx = 0;
         gbcParcels.gridy++;
         gbcParcels.gridwidth = GridBagConstraints.REMAINDER;
@@ -70,6 +63,8 @@ public class ParcelCRUDApp extends JFrame {
         rightPanel.add(updateParcelButton, gbcParcels);
         gbcParcels.gridy++;
         rightPanel.add(updateStatusButton, gbcParcels);
+        gbcParcels.gridy++;
+        rightPanel.add(addParcelButton, gbcParcels);
 
         // Set up event listeners for parcels
         parcelList.addListSelectionListener(e -> displaySelectedParcel());
@@ -86,7 +81,7 @@ public class ParcelCRUDApp extends JFrame {
 
         // Set up the frame properties
         setTitle("Parcel CRUD App");
-        setSize(800, 400);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -96,18 +91,19 @@ public class ParcelCRUDApp extends JFrame {
         }
     }
 
+
     private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
         gbc.gridx = 0;
         gbc.gridy++;
+        gbc.gridwidth = 1; // Reset gridwidth to default value
         panel.add(label, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(component, gbc);
-
-        // Remove the following line
-        // gbc.gridy++;
     }
+
+
 
 
     // Database connection setup
