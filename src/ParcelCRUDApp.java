@@ -78,6 +78,7 @@ public class ParcelCRUDApp extends JFrame {
 
         searchField = new JTextField(10);
         searchButton = new JButton("Search");
+        searchButton.setFocusPainted(false);
 
         // Add search components to the right panel
         addRow(rightPanel, gbcParcels, new JLabel("Search Parcel by ID:"), searchField);
