@@ -19,6 +19,7 @@ public class TrainsManagementForm extends JFrame {
         trainNameField = new JTextField(20);
 
         JButton addButton = new JButton("Add Train");
+        JButton deleteButton = new JButton("Delete Train");
 
         tableModel = new DefaultTableModel();
         trainsTable = new JTable(tableModel);
@@ -31,10 +32,20 @@ public class TrainsManagementForm extends JFrame {
             }
         });
 
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteTrain();
+            }
+        });
+
+
+
         JPanel formPanel = new JPanel(new GridLayout(2, 2));
         formPanel.add(nameLabel);
         formPanel.add(trainNameField);
         formPanel.add(addButton);
+        formPanel.add(deleteButton);
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
@@ -113,6 +124,38 @@ public class TrainsManagementForm extends JFrame {
         }
     }
 
+
+
+    private void deleteTrain() {
+        int selectedRow = trainsTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int trainId = (int) tableModel.getValueAt(selectedRow, 0);
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            String deleteQuery = "DELETE FROM Trains WHERE trainId = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setInt(1, trainId);
+                preparedStatement.executeUpdate();
+            }
+
+            // Refresh the table after deleting a train
+            fetchAndPopulateTable();
+
+            JOptionPane.showMessageDialog(this, "Train deleted successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error deleting train from the database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+   
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -122,3 +165,7 @@ public class TrainsManagementForm extends JFrame {
         });
     }
 }
+
+
+
+
