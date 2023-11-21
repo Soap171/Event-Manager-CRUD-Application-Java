@@ -205,10 +205,58 @@ public class SchedulesForm extends JFrame {
     }
 
     private void updateSchedule() {
-        // ... (unchanged code for updating)
+        String selectedTrainName = (String) trainComboBox.getSelectedItem();
+        String arrivalTime = arrivalTimeField.getText();
+        String departureTime = departureTimeField.getText();
+        String day = dayField.getText();
 
+        if (selectedTrainName == null || selectedTrainName.isEmpty() || arrivalTime.isEmpty() || departureTime.isEmpty() || day.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+
+            // Get the trainId based on the selected train name
+            PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
+            selectTrainIdStatement.setString(1, selectedTrainName);
+            ResultSet resultSet = selectTrainIdStatement.executeQuery();
+
+            int trainId = -1;
+            if (resultSet.next()) {
+                trainId = resultSet.getInt("trainId");
+            }
+
+            // Update the schedule in the Schedules table
+            PreparedStatement updateScheduleStatement = connection.prepareStatement("UPDATE Schedules SET arrivalTime = ?, departureTime = ?, day = ? WHERE train_id = ?");
+            updateScheduleStatement.setString(1, arrivalTime);
+            updateScheduleStatement.setString(2, departureTime);
+            updateScheduleStatement.setString(3, day);
+            updateScheduleStatement.setInt(4, trainId);
+            updateScheduleStatement.executeUpdate();
+
+            resultSet.close();
+            selectTrainIdStatement.close();
+            updateScheduleStatement.close();
+            connection.close();
+
+            // Clear the fields after updating a schedule
+            arrivalTimeField.setText("");
+            departureTimeField.setText("");
+            dayField.setText("");
+
+            JOptionPane.showMessageDialog(this, "Schedule updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error updating schedule in the database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Refresh the table with the updated schedule
         populateSchedulesTable();
     }
+
 
     private void deleteSchedule() {
         String selectedTrainName = (String) trainComboBox.getSelectedItem();
