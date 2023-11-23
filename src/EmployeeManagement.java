@@ -15,9 +15,20 @@ public class EmployeeManagement extends JFrame {
     private JTextField searchField;
     private JButton searchButton;
     private JButton backToDashboard;
+    // Declare the Connection variable at the class level
+    private Connection connection;
 
     public EmployeeManagement() {
         super("Employee Management");
+
+        // Initialize the connection in the constructor
+        try {
+             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error connecting to the database", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1); // Terminate the application on connection failure
+        }
 
         JLabel nicLabel = new JLabel("NIC:");
         JLabel nameLabel = new JLabel("Name:");
@@ -152,7 +163,7 @@ public class EmployeeManagement extends JFrame {
         String searchNic = searchField.getText();
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+
             PreparedStatement searchStatement = connection.prepareStatement("SELECT * FROM Employee WHERE NIC = ?");
             searchStatement.setString(1, searchNic);
             ResultSet resultSet = searchStatement.executeQuery();
@@ -180,7 +191,6 @@ public class EmployeeManagement extends JFrame {
 
             resultSet.close();
             searchStatement.close();
-            connection.close();
             searchField.setText("");
 
             // Set the selection to the matching row
@@ -209,7 +219,6 @@ public class EmployeeManagement extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Employee (NIC, name, contact, address, salary) VALUES (?, ?, ?, ?, ?)");
             insertStatement.setString(1, nic);
             insertStatement.setString(2, name);
@@ -219,7 +228,6 @@ public class EmployeeManagement extends JFrame {
             insertStatement.executeUpdate();
 
             insertStatement.close();
-            connection.close();
 
             clearFields();
             JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -243,7 +251,6 @@ public class EmployeeManagement extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE Employee SET name = ?, contact = ?, address = ?, salary = ? WHERE NIC = ?");
             updateStatement.setString(1, name);
             updateStatement.setString(2, contact);
@@ -253,7 +260,6 @@ public class EmployeeManagement extends JFrame {
             updateStatement.executeUpdate();
 
             updateStatement.close();
-            connection.close();
 
             clearFields();
             JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -278,13 +284,11 @@ public class EmployeeManagement extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
             PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM Employee WHERE NIC = ?");
             deleteStatement.setString(1, nic);
             deleteStatement.executeUpdate();
 
             deleteStatement.close();
-            connection.close();
 
             clearFields();
             JOptionPane.showMessageDialog(this, "Employee deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -300,7 +304,6 @@ public class EmployeeManagement extends JFrame {
         tableModel.setRowCount(0);
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee");
 
@@ -317,7 +320,6 @@ public class EmployeeManagement extends JFrame {
 
             resultSet.close();
             statement.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error fetching employees from the database", "Error", JOptionPane.ERROR_MESSAGE);
@@ -331,12 +333,26 @@ public class EmployeeManagement extends JFrame {
         addressField.setText("");
         salaryField.setText("");
     }
+    private void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new EmployeeManagement();
+                EmployeeManagement employeeManagement = new EmployeeManagement();
+
+                // Add a shutdown hook to close the connection when the application exits
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    employeeManagement.closeConnection();
+                }));
             }
         });
     }
