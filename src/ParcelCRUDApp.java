@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +26,7 @@ public class ParcelCRUDApp extends JFrame {
     private JPanel rightPanel;  // Assuming you have a JPanel named rightPanel
     private JTextField searchField;
     private JButton searchButton;
+    private JButton backToDashboard;
     public ParcelCRUDApp() {
         rightPanel = new JPanel();  // Instantiate rightPanel
 
@@ -40,6 +43,7 @@ public class ParcelCRUDApp extends JFrame {
         updateParcelButton = new JButton("Update Parcel");
         updateStatusButton = new JButton("Update Status");
         addParcelButton = new JButton("Add Parcel");
+        backToDashboard = new JButton("Dashboard");
 
         // Set layout for the right panel
         rightPanel.setLayout(new GridBagLayout());
@@ -76,6 +80,14 @@ public class ParcelCRUDApp extends JFrame {
         updateParcelButton.addActionListener(e -> updateParcel());
         updateStatusButton.addActionListener(e -> updateParcelStatus());
 
+        backToDashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dashboard dashboard = new Dashboard();
+                setVisible(false);
+            }
+        });
+
         searchField = new JTextField(10);
         searchButton = new JButton("Search");
         searchButton.setFocusPainted(false);
@@ -83,6 +95,7 @@ public class ParcelCRUDApp extends JFrame {
         // Add search components to the right panel
         addRow(rightPanel, gbcParcels, new JLabel("Search Parcel by ID:"), searchField);
         addRow(rightPanel, gbcParcels, new JLabel(""), searchButton); // Empty label for spacing
+        addRow(rightPanel,gbcParcels,new JLabel(""),backToDashboard);
 
         // Set up event listener for the search button
         searchButton.addActionListener(e -> searchParcel());
@@ -111,6 +124,7 @@ public class ParcelCRUDApp extends JFrame {
             loadParcels();
         }
     }
+
 
 
     private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
