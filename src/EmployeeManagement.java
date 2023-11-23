@@ -14,6 +14,7 @@ public class EmployeeManagement extends JFrame {
     private JTable employeeTable;
     private JTextField searchField;
     private JButton searchButton;
+    private JButton backToDashboard;
 
     public EmployeeManagement() {
         super("Employee Management");
@@ -33,6 +34,7 @@ public class EmployeeManagement extends JFrame {
         JButton addButton = new JButton("Add Employee");
         JButton updateButton = new JButton("Update Employee");
         JButton deleteButton = new JButton("Delete Employee");
+        JButton backToDashboard = new JButton("Dashboard");
         searchField = new JTextField(20);
         searchButton = new JButton("Search by NIC");
 
@@ -40,6 +42,15 @@ public class EmployeeManagement extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchEmployee();
+            }
+        });
+
+        backToDashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Dashboard  dashboard =  new Dashboard();
+                setVisible(false);
             }
         });
 
@@ -115,6 +126,7 @@ public class EmployeeManagement extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
+        formPanel.add(backToDashboard);
 
         // Create a panel for the search components
         JPanel searchPanel = new JPanel(new FlowLayout());
@@ -169,6 +181,7 @@ public class EmployeeManagement extends JFrame {
             resultSet.close();
             searchStatement.close();
             connection.close();
+            searchField.setText("");
 
             // Set the selection to the matching row
             if (selectedRow != -1) {
