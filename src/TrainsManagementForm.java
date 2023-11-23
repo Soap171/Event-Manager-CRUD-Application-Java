@@ -20,10 +20,21 @@ public class TrainsManagementForm extends JFrame {
 
         JButton addButton = new JButton("Add Train");
         JButton deleteButton = new JButton("Delete Train");
+        JButton backToDashboard = new JButton("Dashboard");
 
         tableModel = new DefaultTableModel();
         trainsTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(trainsTable);
+
+
+
+        backToDashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dashboard dashboard = new Dashboard();
+                setVisible(false);
+            }
+        });
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -47,11 +58,13 @@ public class TrainsManagementForm extends JFrame {
         formPanel.add(addButton);
         formPanel.add(deleteButton);
 
+
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
+        add(backToDashboard,BorderLayout.SOUTH);
 
-        setSize(500, 300);
+        setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
