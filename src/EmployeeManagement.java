@@ -115,9 +115,14 @@ public class EmployeeManagement extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
-        formPanel.add(searchButton);
-        formPanel.add(searchField);
 
+        // Create a panel for the search components
+        JPanel searchPanel = new JPanel(new FlowLayout());
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        // Add the search panel to the formPanel
+        formPanel.add(searchPanel);
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
