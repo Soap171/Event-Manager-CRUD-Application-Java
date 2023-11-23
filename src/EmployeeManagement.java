@@ -90,7 +90,7 @@ public class EmployeeManagement extends JFrame {
         });
 
 
-        JPanel formPanel = new JPanel(new GridLayout(6, 2));
+        JPanel formPanel = new JPanel(new GridLayout(10, 2));
         formPanel.add(nicLabel);
         formPanel.add(nicField);
         formPanel.add(nameLabel);
@@ -109,7 +109,7 @@ public class EmployeeManagement extends JFrame {
         add(formPanel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
 
-        setSize(600, 400);
+        setSize(1200, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
