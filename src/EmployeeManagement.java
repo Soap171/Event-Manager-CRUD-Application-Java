@@ -15,7 +15,7 @@ public class EmployeeManagement extends JFrame {
     private JTextField searchField;
     private JButton searchButton;
     private JButton backToDashboard;
-    // Declare the Connection variable at the class level
+
     private Connection connection;
 
     public EmployeeManagement() {

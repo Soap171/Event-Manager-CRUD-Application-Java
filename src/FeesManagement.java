@@ -42,6 +42,15 @@ public class FeesManagement extends JFrame {
         updateButton = new JButton("Update");
         deleteButton = new JButton("Delete");
         searchButton = new JButton("Search");
+        JButton backToDashboard = new JButton("Dashboard");
+
+        backToDashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dashboard dashboard = new Dashboard();
+                setVisible(false);
+            }
+        });
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -116,6 +125,7 @@ public class FeesManagement extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
+        formPanel.add(backToDashboard);
 
         JPanel searchPanel = new JPanel(new FlowLayout());
         searchPanel.add(searchField);
