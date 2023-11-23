@@ -12,6 +12,8 @@ public class EmployeeManagement extends JFrame {
 
     private JTextField nicField, nameField, contactField, addressField, salaryField;
     private JTable employeeTable;
+    private JTextField searchField;
+    private JButton searchButton;
 
     public EmployeeManagement() {
         super("Employee Management");
@@ -31,6 +33,15 @@ public class EmployeeManagement extends JFrame {
         JButton addButton = new JButton("Add Employee");
         JButton updateButton = new JButton("Update Employee");
         JButton deleteButton = new JButton("Delete Employee");
+        searchField = new JTextField(20);
+        searchButton = new JButton("Search by NIC");
+
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchEmployee();
+            }
+        });
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -104,6 +115,9 @@ public class EmployeeManagement extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
+        formPanel.add(searchButton);
+        formPanel.add(searchField);
+
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
@@ -116,6 +130,53 @@ public class EmployeeManagement extends JFrame {
 
         populateEmployeeTable();
     }
+
+    private void searchEmployee() {
+        String searchNic = searchField.getText();
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            PreparedStatement searchStatement = connection.prepareStatement("SELECT * FROM Employee WHERE NIC = ?");
+            searchStatement.setString(1, searchNic);
+            ResultSet resultSet = searchStatement.executeQuery();
+
+            DefaultTableModel tableModel = (DefaultTableModel) employeeTable.getModel();
+            tableModel.setRowCount(0);
+
+            int selectedRow = -1; // Added to keep track of the selected row
+
+            while (resultSet.next()) {
+                Object[] rowData = {
+                        resultSet.getString("NIC"),
+                        resultSet.getString("name"),
+                        resultSet.getString("contact"),
+                        resultSet.getString("address"),
+                        resultSet.getBigDecimal("salary")
+                };
+                tableModel.addRow(rowData);
+
+                // Check if the current row matches the search criteria
+                if (resultSet.getString("NIC").equals(searchNic)) {
+                    selectedRow = tableModel.getRowCount() - 1; // Set the selected row to the last row added
+                }
+            }
+
+            resultSet.close();
+            searchStatement.close();
+            connection.close();
+
+            // Set the selection to the matching row
+            if (selectedRow != -1) {
+                employeeTable.setRowSelectionInterval(selectedRow, selectedRow);
+                employeeTable.scrollRectToVisible(employeeTable.getCellRect(selectedRow, 0, true));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error searching for employee", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     private void addEmployee() {
         String nic = nicField.getText();
