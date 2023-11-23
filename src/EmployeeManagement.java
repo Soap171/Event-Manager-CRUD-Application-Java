@@ -36,6 +36,7 @@ public class EmployeeManagement extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addEmployee();
+                populateEmployeeTable();
             }
         });
 
@@ -43,6 +44,7 @@ public class EmployeeManagement extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateEmployee();
+                populateEmployeeTable();
             }
         });
 
@@ -50,6 +52,7 @@ public class EmployeeManagement extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteEmployee();
+                populateEmployeeTable();
             }
         });
 
