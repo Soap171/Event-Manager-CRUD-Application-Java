@@ -1,17 +1,53 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Dashboard extends JFrame {
 
+    JFrame frame = new JFrame();
+
     public Dashboard() {
         super("Dashboard");
 
         JButton parcelManagementButton = new JButton("Parcel Management");
-        JButton feesButton = new JButton("Fees");
-        JButton trainsButton = new JButton("Trains");
+        parcelManagementButton.setFocusPainted(false);
+        parcelManagementButton.setBorderPainted(false);
+        parcelManagementButton.setBackground(new Color(14, 12, 168));
+        parcelManagementButton.setForeground(new Color(255,255,255));
+        parcelManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        JButton feesButton = new JButton("Fees Management");
+        feesButton.setFocusPainted(false);
+        feesButton.setBorderPainted(false);
+        feesButton.setBackground(new Color(14, 12, 168));
+        feesButton.setForeground(new Color(255,255,255));
+        feesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        JButton trainsButton = new JButton("Trains Management");
+        trainsButton.setFocusPainted(false);
+        trainsButton.setBorderPainted(false);
+        trainsButton.setBackground(new Color(14, 12, 168));
+        trainsButton.setForeground(new Color(255,255,255));
+        trainsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         JButton scheduleManagementButton = new JButton("Schedule Management");
+        scheduleManagementButton.setFocusPainted(false);
+        scheduleManagementButton.setBorderPainted(false);
+        scheduleManagementButton.setBackground(new Color(14, 12, 168));
+        scheduleManagementButton.setForeground(new Color(255,255,255));
+        scheduleManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         JButton employeeManagementButton = new JButton("Employee Management");
+        employeeManagementButton.setFocusPainted(false);
+        employeeManagementButton.setBorderPainted(false);
+        employeeManagementButton.setBackground(new Color(14, 12, 168));
+        employeeManagementButton.setForeground(new Color(255,255,255));
+        employeeManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        JLabel label = new JLabel("Choose the Path you want to Manage with SwiftRail !!");
+
 
         parcelManagementButton.addActionListener(new ActionListener() {
             @Override
@@ -54,6 +90,7 @@ public class Dashboard extends JFrame {
             }
         });
 
+
         JPanel panel = new JPanel();
         panel.add(parcelManagementButton);
         panel.add(feesButton);
@@ -61,24 +98,32 @@ public class Dashboard extends JFrame {
         panel.add(scheduleManagementButton);
         panel.add(employeeManagementButton);
 
-        add(panel);
+        JPanel panel2 = new JPanel();
+        panel2.add(label);
 
-        setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
+
+
+        frame.add(panel,BorderLayout.CENTER);
+        frame.add(panel2, BorderLayout.NORTH);
+
+        frame.setSize(500, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     private void openParcelManagement() {
 
         ParcelCRUDApp parcel = new ParcelCRUDApp();
-        setVisible(false);
+        frame.setVisible(false);
 
 
     }
 
     private void openFees() {
-        setVisible(false);
+        FeesManagement fees = new FeesManagement();
+        frame.setVisible(false);
 
 
 
@@ -86,14 +131,14 @@ public class Dashboard extends JFrame {
 
     private void openTrains() {
         TrainsManagementForm trains = new TrainsManagementForm();
-        setVisible(false);
+        frame.setVisible(false);
 
     }
 
     private void openScheduleManagement() {
 
         SchedulesForm form = new SchedulesForm();
-        setVisible(false);
+        frame.setVisible(false);
 
     }
 
