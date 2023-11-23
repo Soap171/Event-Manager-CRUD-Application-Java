@@ -220,8 +220,58 @@ public class FeesManagement extends JFrame {
     }
 
     private void searchFee() {
-        // Implement search functionality
+        String searchDestination = searchField.getText().trim();
+
+        if (searchDestination.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a destination to search", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel tableModel = (DefaultTableModel) feeTable.getModel();
+        tableModel.setRowCount(0);
+
+        int selectedRow = -1; // Added to keep track of the selected row
+
+        try {
+            PreparedStatement searchStatement = connection.prepareStatement("SELECT * FROM Fees WHERE LOWER(destination) LIKE LOWER(?)");
+            searchStatement.setString(1, "%" + searchDestination + "%");
+
+            ResultSet resultSet = searchStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Object[] rowData = {
+                        resultSet.getInt("fee_id"),
+                        resultSet.getString("destination"),
+                        resultSet.getBigDecimal("firstClassFee"),
+                        resultSet.getBigDecimal("secondClassFee"),
+                        resultSet.getBigDecimal("thirdClassFee")
+                };
+                tableModel.addRow(rowData);
+
+                // Check if the current row matches the search criteria
+                if (resultSet.getString("destination").toLowerCase().contains(searchDestination.toLowerCase())) {
+                    selectedRow = tableModel.getRowCount() - 1; // Set the selected row to the last row added
+                }
+            }
+
+            resultSet.close();
+            searchStatement.close();
+
+            searchField.setText("");
+
+            // Set the selection to the matching row
+            if (selectedRow != -1) {
+                feeTable.setRowSelectionInterval(selectedRow, selectedRow);
+                feeTable.scrollRectToVisible(feeTable.getCellRect(selectedRow, 0, true));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error searching fees in the database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
+
+
 
     private void populateTable() {
         DefaultTableModel tableModel = (DefaultTableModel) feeTable.getModel();
