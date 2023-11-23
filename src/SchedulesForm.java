@@ -33,6 +33,16 @@ public class SchedulesForm extends JFrame {
         JButton addButton = new JButton("Add Schedule");
         JButton updateButton = new JButton("Update Schedule");
         JButton deleteButton = new JButton("Delete Schedule");
+        JButton backToDashbaord = new JButton("Dashboard");
+
+
+        backToDashbaord.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dashboard dashboard = new Dashboard();
+                setVisible(false);
+            }
+        });
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -94,12 +104,13 @@ public class SchedulesForm extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
+        formPanel.add(backToDashbaord);
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
 
-        setSize(600, 400);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);

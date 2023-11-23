@@ -115,7 +115,7 @@ public class ParcelCRUDApp extends JFrame {
 
         // Set up the frame properties
         setTitle("SwiftRail (Railway Management)");
-        setSize(1000, 600);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
