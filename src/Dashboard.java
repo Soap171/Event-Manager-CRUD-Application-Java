@@ -17,6 +17,7 @@ public class Dashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openParcelManagement();
+                setVisible(false);
             }
         });
 
@@ -24,6 +25,7 @@ public class Dashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openFees();
+                setVisible(false);
             }
         });
 
@@ -31,6 +33,7 @@ public class Dashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openTrains();
+                setVisible(false);
             }
         });
 
@@ -38,6 +41,7 @@ public class Dashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openScheduleManagement();
+                setVisible(false);
             }
         });
 
@@ -46,6 +50,7 @@ public class Dashboard extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 openEmployeeManagement();
+                setVisible(false);
             }
         });
 
