@@ -116,14 +116,18 @@ public class FeesManagement extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
-        formPanel.add(searchField);
-        formPanel.add(searchButton);
+
+        JPanel searchPanel = new JPanel(new FlowLayout());
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        formPanel.add(searchPanel);
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
 
-        setSize(800, 600);
+        setSize(1200, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
