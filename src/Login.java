@@ -89,6 +89,7 @@ public class Login extends JFrame {
                     if (resultSet.next()) {
                         JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                         Dashboard dashboard = new Dashboard();
+                        setVisible(false);
                     } else {
                         JOptionPane.showMessageDialog(this, "Login failed. Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
                     }

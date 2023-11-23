@@ -11,6 +11,7 @@ public class Dashboard extends JFrame {
         JButton feesButton = new JButton("Fees");
         JButton trainsButton = new JButton("Trains");
         JButton scheduleManagementButton = new JButton("Schedule Management");
+        JButton employeeManagementButton = new JButton("Employee Management");
 
         parcelManagementButton.addActionListener(new ActionListener() {
             @Override
@@ -40,40 +41,60 @@ public class Dashboard extends JFrame {
             }
         });
 
+        employeeManagementButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                openEmployeeManagement();
+            }
+        });
+
         JPanel panel = new JPanel();
         panel.add(parcelManagementButton);
         panel.add(feesButton);
         panel.add(trainsButton);
         panel.add(scheduleManagementButton);
+        panel.add(employeeManagementButton);
 
         add(panel);
 
-        setSize(400, 200);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void openParcelManagement() {
+
         ParcelCRUDApp parcel = new ParcelCRUDApp();
+        setVisible(false);
+
 
     }
 
     private void openFees() {
-        // Implement the logic to open the Fees section
-        JOptionPane.showMessageDialog(this, "Opening Fees", "Fees", JOptionPane.INFORMATION_MESSAGE);
+        setVisible(false);
+
+
+
     }
 
     private void openTrains() {
-        // Implement the logic to open the Trains section
         TrainsManagementForm trains = new TrainsManagementForm();
+        setVisible(false);
+
     }
 
     private void openScheduleManagement() {
 
         SchedulesForm form = new SchedulesForm();
+        setVisible(false);
+
     }
 
+    private void openEmployeeManagement(){
+        EmployeeManagement emp = new EmployeeManagement();
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
