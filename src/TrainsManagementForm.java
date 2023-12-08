@@ -88,7 +88,7 @@ public class TrainsManagementForm extends JFrame {
 
     private void fetchAndPopulateTable() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Trains");
 
@@ -120,7 +120,7 @@ public class TrainsManagementForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
             String insertQuery = "INSERT INTO Trains (name) VALUES (?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, trainName);
@@ -130,6 +130,7 @@ public class TrainsManagementForm extends JFrame {
                 fetchAndPopulateTable();
 
                 JOptionPane.showMessageDialog(this, "Train added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                trainNameField.setText("");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,7 +151,7 @@ public class TrainsManagementForm extends JFrame {
         int trainId = (int) tableModel.getValueAt(selectedRow, 0);
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
             String deleteQuery = "DELETE FROM Trains WHERE trainId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
                 preparedStatement.setInt(1, trainId);

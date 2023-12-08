@@ -79,6 +79,7 @@ public class ParcelCRUDApp extends JFrame {
         deleteParcelButton.addActionListener(e -> deleteParcel());
         updateParcelButton.addActionListener(e -> updateParcel());
         updateStatusButton.addActionListener(e -> updateParcelStatus());
+        addParcelButton.addActionListener(e -> addNewParcel());
 
         backToDashboard.addActionListener(new ActionListener() {
             @Override
@@ -190,7 +191,7 @@ public class ParcelCRUDApp extends JFrame {
     private boolean connectToDatabase() {
         String url = "jdbc:mysql://localhost:3306/swiftrail";
         String user = "root";
-        String password = "200434";
+        String password = "2004";
 
         try {
             connection = DriverManager.getConnection(url, user, password);

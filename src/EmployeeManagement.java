@@ -23,7 +23,7 @@ public class EmployeeManagement extends JFrame {
 
         // Initialize the connection in the constructor
         try {
-             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error connecting to the database", "Error", JOptionPane.ERROR_MESSAGE);
