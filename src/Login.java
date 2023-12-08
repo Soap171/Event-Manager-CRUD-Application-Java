@@ -67,7 +67,7 @@ public class Login extends JFrame {
         if (connectToDatabase()) {
             try {
                 String selectQuery = "SELECT * FROM Admin WHERE userName = ? and password = ?";
-                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
                      PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
                     String username = userNameField.getText();
