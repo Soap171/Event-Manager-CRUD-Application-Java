@@ -22,7 +22,6 @@ public class Login extends JFrame {
         passwordField = new JPasswordField(20);
 
         JButton loginButton = new JButton("Login");
-        JButton signUpButton = new JButton("Sign Up");
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -31,12 +30,7 @@ public class Login extends JFrame {
             }
         });
 
-        signUpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openSignUpPage();
-            }
-        });
+
 
         JPanel panel = new JPanel();
         panel.add(userNameLabel);
@@ -44,7 +38,6 @@ public class Login extends JFrame {
         panel.add(passwordLabel);
         panel.add(passwordField);
         panel.add(loginButton);
-        panel.add(signUpButton);
 
         add(panel);
 
@@ -57,7 +50,7 @@ public class Login extends JFrame {
     private boolean connectToDatabase() {
         String url = "jdbc:mysql://localhost:3306/swiftrail";
         String user = "root";
-        String password = "200434";
+        String password = "2004";
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
@@ -101,12 +94,7 @@ public class Login extends JFrame {
         }
     }
 
-    private void openSignUpPage() {
-        // Hide the current login page
-        setVisible(false);
 
-        SignUp signup = new SignUp();
-    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

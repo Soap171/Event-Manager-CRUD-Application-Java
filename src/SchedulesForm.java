@@ -120,7 +120,7 @@ public class SchedulesForm extends JFrame {
 
     private void populateTrainComboBox() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT name FROM Trains");
 
@@ -142,7 +142,7 @@ public class SchedulesForm extends JFrame {
         tableModel.setRowCount(0);
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT Trains.name, Schedules.arrivalTime, Schedules.departureTime, Schedules.destination FROM Schedules JOIN Trains ON Schedules.train_id = Trains.trainId");
 
@@ -177,7 +177,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
             selectTrainIdStatement.setString(1, selectedTrainName);
@@ -227,7 +227,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
 
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
@@ -286,7 +286,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "200434");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
 
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
