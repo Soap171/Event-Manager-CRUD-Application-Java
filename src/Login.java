@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -16,9 +15,10 @@ public class Login extends JFrame {
     public Login() {
         super("Login");
 
+
         // Load an image and create a JLabel to display it
-        ImageIcon icon = new ImageIcon("img/user.jpg"); // Replace with the actual path to your image
-        Image image = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageIcon userIcon = new ImageIcon("img/user.jpg"); // Replace with the actual path to your image
+        Image image = userIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(image));
 
         JLabel userNameLabel = new JLabel(" Your Username");
@@ -80,6 +80,11 @@ public class Login extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        setIconImage(frameIcon.getImage());
+    }
+
 
     private boolean connectToDatabase() {
         try {
@@ -124,7 +129,14 @@ public class Login extends JFrame {
         }
     }
 
+
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Login());
+        SwingUtilities.invokeLater(() -> {
+            Login login = new Login();
+            login.setIcon();
+        });
     }
+
+
 }

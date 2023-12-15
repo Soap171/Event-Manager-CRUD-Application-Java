@@ -151,6 +151,11 @@ public class EmployeeManagement extends JFrame {
         populateEmployeeTable();
     }
 
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        setIconImage(frameIcon.getImage());
+    }
+
     private void searchEmployee() {
         String searchNic = searchField.getText();
 
@@ -342,6 +347,7 @@ public class EmployeeManagement extends JFrame {
                 EmployeeManagement employeeManagement = null;
                 try {
                     employeeManagement = new EmployeeManagement();
+                    employeeManagement.setIcon();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
