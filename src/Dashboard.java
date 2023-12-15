@@ -11,6 +11,7 @@ public class Dashboard extends JFrame {
 
     public Dashboard() {
         super("Dashboard");
+        setIcon();
 
         JButton parcelManagementButton = new JButton("Parcel Management");
         parcelManagementButton.setFocusPainted(false);
@@ -100,6 +101,8 @@ public class Dashboard extends JFrame {
         });
 
 
+
+
         JPanel panel = new JPanel();
         panel.add(parcelManagementButton);
         panel.add(feesButton);
@@ -151,14 +154,21 @@ public class Dashboard extends JFrame {
 
     }
 
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        frame.setIconImage(frameIcon.getImage()); 
+    }
+
     private void openEmployeeManagement() throws SQLException {
         EmployeeManagement emp = new EmployeeManagement();
+
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new Dashboard();
+
             }
         });
     }
