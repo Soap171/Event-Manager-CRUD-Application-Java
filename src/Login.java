@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,8 +29,6 @@ public class Login extends JFrame {
             }
         });
 
-
-
         JPanel panel = new JPanel();
         panel.add(userNameLabel);
         panel.add(userNameField);
@@ -48,12 +45,8 @@ public class Login extends JFrame {
     }
 
     private boolean connectToDatabase() {
-        String url = "jdbc:mysql://localhost:3306/swiftrail";
-        String user = "root";
-        String password = "2004";
-
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DatabaseConnection.getConnection();
             System.out.println("Connected to the database");
             return true;
         } catch (SQLException e) {
@@ -67,7 +60,7 @@ public class Login extends JFrame {
         if (connectToDatabase()) {
             try {
                 String selectQuery = "SELECT * FROM Admin WHERE userName = ? and password = ?";
-                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+                try (Connection connection = DatabaseConnection.getConnection();
                      PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
                     String username = userNameField.getText();
@@ -94,14 +87,7 @@ public class Login extends JFrame {
         }
     }
 
-
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Login();
-            }
-        });
+        SwingUtilities.invokeLater(() -> new Login());
     }
 }
