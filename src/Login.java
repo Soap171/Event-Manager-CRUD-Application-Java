@@ -1,10 +1,12 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -14,8 +16,13 @@ public class Login extends JFrame {
     public Login() {
         super("Login");
 
-        JLabel userNameLabel = new JLabel("Username:");
-        JLabel passwordLabel = new JLabel("Password:");
+        // Load an image and create a JLabel to display it
+        ImageIcon icon = new ImageIcon("img/user.jpg"); // Replace with the actual path to your image
+        Image image = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(image));
+
+        JLabel userNameLabel = new JLabel(" Your Username");
+        JLabel passwordLabel = new JLabel(" Your Password");
 
         userNameField = new JTextField(20);
         passwordField = new JPasswordField(20);
@@ -29,16 +36,46 @@ public class Login extends JFrame {
             }
         });
 
-        JPanel panel = new JPanel();
-        panel.add(userNameLabel);
-        panel.add(userNameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-        panel.add(loginButton);
+        // Use GridBagLayout for better control of the layout
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        // Place the image label
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(0, 60, 10, 0); // Add some space below the image
+        panel.add(imageLabel, constraints);
+
+        // Reset insets
+        constraints.insets = new Insets(0, 0, 0, 0);
+
+        // Place the username label and field
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        panel.add(userNameLabel, constraints);
+
+        constraints.gridx = 1;
+        panel.add(userNameField, constraints);
+
+        // Place the password label and field
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        panel.add(passwordLabel, constraints);
+
+        constraints.gridx = 1;
+        panel.add(passwordField, constraints);
+
+        // Place the login button
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(10, 60, 0, 0); // Add some space above the login button
+        panel.add(loginButton, constraints);
 
         add(panel);
 
-        setSize(300, 200);
+        setSize(400, 300); // Adjusted height to accommodate the image and provide some spacing
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
