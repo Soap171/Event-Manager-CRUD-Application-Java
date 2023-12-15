@@ -17,6 +17,7 @@ public class SchedulesForm extends JFrame {
 
     public SchedulesForm() {
         super("Schedules Management");
+        setIcon();
 
         JLabel trainLabel = new JLabel("Train:");
         JLabel arrivalTimeLabel = new JLabel("Arrival Time:");
@@ -324,6 +325,12 @@ public class SchedulesForm extends JFrame {
             JOptionPane.showMessageDialog(this, "Error deleting schedule from the database", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        setIconImage(frameIcon.getImage());
+    }
+
 
 
     public static void main(String[] args) {

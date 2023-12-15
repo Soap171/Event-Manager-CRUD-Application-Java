@@ -14,6 +14,7 @@ public class TrainsManagementForm extends JFrame {
 
     public TrainsManagementForm() {
         super("Trains Management");
+        setIcon();
 
         JLabel nameLabel = new JLabel("Train Name:");
         trainNameField = new JTextField(20);
@@ -159,6 +160,11 @@ public class TrainsManagementForm extends JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error deleting train from the database", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        setIconImage(frameIcon.getImage());
     }
 
     public static void main(String[] args) {

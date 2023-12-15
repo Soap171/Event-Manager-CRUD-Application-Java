@@ -28,7 +28,8 @@ public class ParcelCRUDApp extends JFrame {
     private JButton searchButton;
     private JButton backToDashboard;
     public ParcelCRUDApp() {
-        rightPanel = new JPanel();  // Instantiate rightPanel
+        rightPanel = new JPanel(); // Instantiate rightPanel
+        setIcon();
 
         // Initialize parcels components
         parcelListModel = new DefaultListModel<>();
@@ -450,6 +451,11 @@ public class ParcelCRUDApp extends JFrame {
                 JOptionPane.showMessageDialog(this, "Error adding parcel", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        setIconImage(frameIcon.getImage());
     }
 
 
