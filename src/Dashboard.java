@@ -61,7 +61,11 @@ public class Dashboard extends JFrame {
         feesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openFees();
+                try {
+                    openFees();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 setVisible(false);
             }
         });
@@ -126,7 +130,7 @@ public class Dashboard extends JFrame {
 
     }
 
-    private void openFees() {
+    private void openFees() throws SQLException {
         FeesManagement fees = new FeesManagement();
         frame.setVisible(false);
 

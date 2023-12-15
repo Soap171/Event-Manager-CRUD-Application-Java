@@ -16,16 +16,11 @@ public class FeesManagement extends JFrame {
     private JTable feeTable; // Declare feeTable as an instance variable
     private Connection connection;
 
-    public FeesManagement() {
+    public FeesManagement() throws SQLException {
         super("Fees Management");
 
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error connecting to the database", "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+        // Initialize the connection in the constructor using the DatabaseConnection class
+        connection = DatabaseConnection.getConnection();
 
         JLabel destinationLabel = new JLabel("Destination:");
         JLabel firstClassFeeLabel = new JLabel("First Class Fee:");
@@ -285,8 +280,6 @@ public class FeesManagement extends JFrame {
         }
     }
 
-
-
     private void populateTable() {
         DefaultTableModel tableModel = (DefaultTableModel) feeTable.getModel();
         tableModel.setRowCount(0);
@@ -325,7 +318,11 @@ public class FeesManagement extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new FeesManagement();
+                try {
+                    new FeesManagement();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
