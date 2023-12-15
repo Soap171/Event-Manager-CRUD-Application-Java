@@ -26,8 +26,6 @@ public class TrainsManagementForm extends JFrame {
         trainsTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(trainsTable);
 
-
-
         backToDashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,19 +48,16 @@ public class TrainsManagementForm extends JFrame {
             }
         });
 
-
-
         JPanel formPanel = new JPanel(new GridLayout(2, 2));
         formPanel.add(nameLabel);
         formPanel.add(trainNameField);
         formPanel.add(addButton);
         formPanel.add(deleteButton);
 
-
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
-        add(backToDashboard,BorderLayout.SOUTH);
+        add(backToDashboard, BorderLayout.SOUTH);
 
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +83,7 @@ public class TrainsManagementForm extends JFrame {
 
     private void fetchAndPopulateTable() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Trains");
 
@@ -120,7 +115,7 @@ public class TrainsManagementForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
             String insertQuery = "INSERT INTO Trains (name) VALUES (?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, trainName);
@@ -138,8 +133,6 @@ public class TrainsManagementForm extends JFrame {
         }
     }
 
-
-
     private void deleteTrain() {
         int selectedRow = trainsTable.getSelectedRow();
 
@@ -151,7 +144,7 @@ public class TrainsManagementForm extends JFrame {
         int trainId = (int) tableModel.getValueAt(selectedRow, 0);
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
             String deleteQuery = "DELETE FROM Trains WHERE trainId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
                 preparedStatement.setInt(1, trainId);
@@ -168,8 +161,6 @@ public class TrainsManagementForm extends JFrame {
         }
     }
 
-
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -179,7 +170,3 @@ public class TrainsManagementForm extends JFrame {
         });
     }
 }
-
-
-
-
