@@ -156,7 +156,7 @@ public class Dashboard extends JFrame {
 
     private void setIcon() {
         ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
-        frame.setIconImage(frameIcon.getImage()); 
+        frame.setIconImage(frameIcon.getImage());
     }
 
     private void openEmployeeManagement() throws SQLException {

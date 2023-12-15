@@ -18,6 +18,7 @@ public class FeesManagement extends JFrame {
 
     public FeesManagement() throws SQLException {
         super("Fees Management");
+        setIcon();
 
         // Initialize the connection in the constructor using the DatabaseConnection class
         connection = DatabaseConnection.getConnection();
@@ -314,12 +315,19 @@ public class FeesManagement extends JFrame {
         thirdClassFeeField.setText("");
     }
 
+    private void setIcon() {
+        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        setIconImage(frameIcon.getImage());
+    }
+
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
                     new FeesManagement();
+
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
