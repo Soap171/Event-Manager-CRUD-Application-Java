@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Dashboard extends JFrame {
 
@@ -85,7 +86,11 @@ public class Dashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                openEmployeeManagement();
+                try {
+                    openEmployeeManagement();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 setVisible(false);
             }
         });
@@ -142,7 +147,7 @@ public class Dashboard extends JFrame {
 
     }
 
-    private void openEmployeeManagement(){
+    private void openEmployeeManagement() throws SQLException {
         EmployeeManagement emp = new EmployeeManagement();
     }
     public static void main(String[] args) {

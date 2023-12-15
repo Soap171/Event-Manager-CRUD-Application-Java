@@ -6,7 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EmployeeManagement extends JFrame {
 
@@ -18,17 +21,11 @@ public class EmployeeManagement extends JFrame {
 
     private Connection connection;
 
-    public EmployeeManagement() {
+    public EmployeeManagement() throws SQLException {
         super("Employee Management");
 
-        // Initialize the connection in the constructor
-        try {
-             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error connecting to the database", "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1); // Terminate the application on connection failure
-        }
+        // Initialize the connection in the constructor using the DatabaseConnection class
+        connection = DatabaseConnection.getConnection();
 
         JLabel nicLabel = new JLabel("NIC:");
         JLabel nameLabel = new JLabel("Name:");
@@ -45,7 +42,7 @@ public class EmployeeManagement extends JFrame {
         JButton addButton = new JButton("Add Employee");
         JButton updateButton = new JButton("Update Employee");
         JButton deleteButton = new JButton("Delete Employee");
-        JButton backToDashboard = new JButton("Dashboard");
+        backToDashboard = new JButton("Dashboard");
         searchField = new JTextField(20);
         searchButton = new JButton("Search by NIC");
 
@@ -59,8 +56,7 @@ public class EmployeeManagement extends JFrame {
         backToDashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Dashboard  dashboard =  new Dashboard();
+                Dashboard dashboard = new Dashboard();
                 setVisible(false);
             }
         });
@@ -88,9 +84,6 @@ public class EmployeeManagement extends JFrame {
                 populateEmployeeTable();
             }
         });
-
-
-
 
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("NIC");
@@ -121,7 +114,6 @@ public class EmployeeManagement extends JFrame {
                 }
             }
         });
-
 
         JPanel formPanel = new JPanel(new GridLayout(10, 2));
         formPanel.add(nicLabel);
@@ -204,7 +196,6 @@ public class EmployeeManagement extends JFrame {
             JOptionPane.showMessageDialog(this, "Error searching for employee", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void addEmployee() {
         String nic = nicField.getText();
@@ -304,8 +295,8 @@ public class EmployeeManagement extends JFrame {
         tableModel.setRowCount(0);
 
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Employee");
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Object[] rowData = {
@@ -333,6 +324,7 @@ public class EmployeeManagement extends JFrame {
         addressField.setText("");
         salaryField.setText("");
     }
+
     private void closeConnection() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -347,11 +339,17 @@ public class EmployeeManagement extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                EmployeeManagement employeeManagement = new EmployeeManagement();
+                EmployeeManagement employeeManagement = null;
+                try {
+                    employeeManagement = new EmployeeManagement();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // Add a shutdown hook to close the connection when the application exits
+                EmployeeManagement finalEmployeeManagement = employeeManagement;
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    employeeManagement.closeConnection();
+                    finalEmployeeManagement.closeConnection();
                 }));
             }
         });
