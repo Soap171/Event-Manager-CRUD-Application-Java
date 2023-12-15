@@ -33,10 +33,9 @@ public class SchedulesForm extends JFrame {
         JButton addButton = new JButton("Add Schedule");
         JButton updateButton = new JButton("Update Schedule");
         JButton deleteButton = new JButton("Delete Schedule");
-        JButton backToDashbaord = new JButton("Dashboard");
+        JButton backToDashboard = new JButton("Dashboard");
 
-
-        backToDashbaord.addActionListener(new ActionListener() {
+        backToDashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Dashboard dashboard = new Dashboard();
@@ -104,7 +103,7 @@ public class SchedulesForm extends JFrame {
         formPanel.add(addButton);
         formPanel.add(updateButton);
         formPanel.add(deleteButton);
-        formPanel.add(backToDashbaord);
+        formPanel.add(backToDashboard);
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
@@ -120,7 +119,7 @@ public class SchedulesForm extends JFrame {
 
     private void populateTrainComboBox() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT name FROM Trains");
 
@@ -142,7 +141,7 @@ public class SchedulesForm extends JFrame {
         tableModel.setRowCount(0);
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT Trains.name, Schedules.arrivalTime, Schedules.departureTime, Schedules.destination FROM Schedules JOIN Trains ON Schedules.train_id = Trains.trainId");
 
@@ -177,7 +176,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
             selectTrainIdStatement.setString(1, selectedTrainName);
@@ -215,6 +214,7 @@ public class SchedulesForm extends JFrame {
         }
     }
 
+
     private void updateSchedule() {
         String selectedTrainName = (String) trainComboBox.getSelectedItem();
         String arrivalTime = arrivalTimeField.getText();
@@ -227,7 +227,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
 
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
@@ -286,7 +286,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swiftrail", "root", "2004");
+            Connection connection = DatabaseConnection.getConnection();
 
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
@@ -327,11 +327,6 @@ public class SchedulesForm extends JFrame {
 
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new SchedulesForm();
-            }
-        });
+        SwingUtilities.invokeLater(() -> new SchedulesForm());
     }
 }
