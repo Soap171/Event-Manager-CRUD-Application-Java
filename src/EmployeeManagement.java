@@ -144,7 +144,7 @@ public class EmployeeManagement extends JFrame {
         add(tableScrollPane, BorderLayout.CENTER);
 
         setSize(1000, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 

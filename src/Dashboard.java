@@ -128,14 +128,14 @@ public class Dashboard extends JFrame {
     private void openParcelManagement() {
 
         ParcelCRUDApp parcel = new ParcelCRUDApp();
-        frame.setVisible(false);
+        frame.setVisible(true);
 
 
     }
 
     private void openFees() throws SQLException {
         FeesManagement fees = new FeesManagement();
-        frame.setVisible(false);
+        frame.setVisible(true);
 
 
 
@@ -143,14 +143,14 @@ public class Dashboard extends JFrame {
 
     private void openTrains() {
         TrainsManagementForm trains = new TrainsManagementForm();
-        frame.setVisible(false);
+        frame.setVisible(true);
 
     }
 
     private void openScheduleManagement() {
 
         SchedulesForm form = new SchedulesForm();
-        frame.setVisible(false);
+        frame.setVisible(true);
 
     }
 
