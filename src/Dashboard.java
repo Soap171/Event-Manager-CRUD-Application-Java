@@ -32,38 +32,27 @@ public class Dashboard extends JFrame {
 
         JButton parcelManagementButton = new JButton("Parcel Management");
         parcelManagementButton.setFocusPainted(false);
-        parcelManagementButton.setBorderPainted(false);
-        parcelManagementButton.setBackground(new Color(14, 12, 168));
-        parcelManagementButton.setForeground(new Color(255,255,255));
         parcelManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         JButton feesButton = new JButton("Fees Management");
         feesButton.setFocusPainted(false);
-        feesButton.setBorderPainted(false);
-        feesButton.setBackground(new Color(14, 12, 168));
-        feesButton.setForeground(new Color(255,255,255));
         feesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         JButton trainsButton = new JButton("Trains Management");
         trainsButton.setFocusPainted(false);
-        trainsButton.setBorderPainted(false);
-        trainsButton.setBackground(new Color(14, 12, 168));
-        trainsButton.setForeground(new Color(255,255,255));
         trainsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         JButton scheduleManagementButton = new JButton("Schedule Management");
         scheduleManagementButton.setFocusPainted(false);
-        scheduleManagementButton.setBorderPainted(false);
-        scheduleManagementButton.setBackground(new Color(14, 12, 168));
-        scheduleManagementButton.setForeground(new Color(255,255,255));
         scheduleManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         JButton employeeManagementButton = new JButton("Employee Management");
         employeeManagementButton.setFocusPainted(false);
-        employeeManagementButton.setBorderPainted(false);
-        employeeManagementButton.setBackground(new Color(14, 12, 168));
-        employeeManagementButton.setForeground(new Color(255,255,255));
         employeeManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+
+
+
 
 
 
