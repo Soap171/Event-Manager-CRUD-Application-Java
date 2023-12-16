@@ -38,7 +38,7 @@ public class FeesManagement extends JFrame {
         updateButton = new JButton("Update");
         deleteButton = new JButton("Delete");
         searchButton = new JButton("Search By Destination Name");
-        JButton backToDashboard = new JButton("Dashboard");
+        JButton backToDashboard = new JButton("Back To Dashboard");
 
         // Set the preferred size for the buttons
         Dimension buttonSize = new Dimension(150, 18);
