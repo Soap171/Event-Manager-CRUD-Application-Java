@@ -42,9 +42,18 @@ public class EmployeeManagement extends JFrame {
         JButton addButton = new JButton("Add Employee");
         JButton updateButton = new JButton("Update Employee");
         JButton deleteButton = new JButton("Delete Employee");
-        backToDashboard = new JButton("Dashboard");
+        backToDashboard = new JButton("Go To Dashboard");
         searchField = new JTextField(20);
         searchButton = new JButton("Search by NIC");
+
+        addButton.setFocusPainted(false);
+        updateButton.setFocusPainted(false);
+        deleteButton.setFocusPainted(false);
+        backToDashboard.setFocusPainted(false);
+        addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        updateButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backToDashboard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         searchButton.addActionListener(new ActionListener() {
             @Override
