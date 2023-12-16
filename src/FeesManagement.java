@@ -40,6 +40,15 @@ public class FeesManagement extends JFrame {
         searchButton = new JButton("Search");
         JButton backToDashboard = new JButton("Dashboard");
 
+        addButton.setFocusPainted(false);
+        updateButton.setFocusPainted(false);
+        deleteButton.setFocusPainted(false);
+        backToDashboard.setFocusPainted(false);
+        addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        updateButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backToDashboard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         backToDashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
