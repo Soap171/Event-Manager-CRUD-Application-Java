@@ -55,6 +55,7 @@ public class TrainsManagementForm extends JFrame {
         formPanel.add(addButton);
         formPanel.add(deleteButton);
 
+
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
