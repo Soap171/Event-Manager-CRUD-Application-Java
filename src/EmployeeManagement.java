@@ -46,6 +46,15 @@ public class EmployeeManagement extends JFrame {
         searchField = new JTextField(20);
         searchButton = new JButton("Search by NIC");
 
+        // Set preferred size for the buttons
+        Dimension buttonSize = new Dimension(150, 18);
+        addButton.setPreferredSize(buttonSize);
+        updateButton.setPreferredSize(buttonSize);
+        deleteButton.setPreferredSize(buttonSize);
+        backToDashboard.setPreferredSize(buttonSize);
+        searchButton.setPreferredSize(buttonSize);
+
+
         addButton.setFocusPainted(false);
         updateButton.setFocusPainted(false);
         deleteButton.setFocusPainted(false);
