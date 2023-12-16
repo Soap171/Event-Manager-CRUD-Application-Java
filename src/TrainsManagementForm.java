@@ -55,10 +55,19 @@ public class TrainsManagementForm extends JFrame {
         formPanel.add(addButton);
         formPanel.add(deleteButton);
 
+        // Create a panel for the buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.add(formPanel);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add vertical space between buttons
+
+        // Create a panel for the table and add space between the table and the buttons
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         setLayout(new BorderLayout());
-        add(formPanel, BorderLayout.NORTH);
-        add(tableScrollPane, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
         add(backToDashboard, BorderLayout.SOUTH);
 
         setSize(500, 500);
@@ -69,7 +78,6 @@ public class TrainsManagementForm extends JFrame {
         // Initialize the table
         initializeTable();
     }
-
     private void initializeTable() {
         // Clear existing data
         tableModel.setColumnCount(0);
