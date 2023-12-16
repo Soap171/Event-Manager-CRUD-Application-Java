@@ -42,7 +42,7 @@ public class EmployeeManagement extends JFrame {
         JButton addButton = new JButton("Add Employee");
         JButton updateButton = new JButton("Update Employee");
         JButton deleteButton = new JButton("Delete Employee");
-        backToDashboard = new JButton("Go To Dashboard");
+        backToDashboard = new JButton("Back To Dashboard");
         searchField = new JTextField(20);
         searchButton = new JButton("Search by NIC");
 

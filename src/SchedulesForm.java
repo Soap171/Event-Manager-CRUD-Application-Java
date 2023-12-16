@@ -34,7 +34,7 @@ public class SchedulesForm extends JFrame {
         JButton addButton = new JButton("Add Schedule");
         JButton updateButton = new JButton("Update Schedule");
         JButton deleteButton = new JButton("Delete Schedule");
-        JButton backToDashboard = new JButton("Dashboard");
+        JButton backToDashboard = new JButton("Back To Dashboard");
 
         addButton.setFocusPainted(false);
         updateButton.setFocusPainted(false);
@@ -101,19 +101,36 @@ public class SchedulesForm extends JFrame {
             }
         });
 
-        JPanel formPanel = new JPanel(new GridLayout(6, 2));
-        formPanel.add(trainLabel);
-        formPanel.add(trainComboBox);
-        formPanel.add(arrivalTimeLabel);
-        formPanel.add(arrivalTimeField);
-        formPanel.add(departureTimeLabel);
-        formPanel.add(departureTimeField);
-        formPanel.add(dayLabel);
-        formPanel.add(dayField);
-        formPanel.add(addButton);
-        formPanel.add(updateButton);
-        formPanel.add(deleteButton);
-        formPanel.add(backToDashboard);
+        // ...
+
+        JPanel formPanel = new JPanel(new BorderLayout());
+
+// Create a panel for the input fields
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2));
+        inputPanel.add(trainLabel);
+        inputPanel.add(trainComboBox);
+        inputPanel.add(arrivalTimeLabel);
+        inputPanel.add(arrivalTimeField);
+        inputPanel.add(departureTimeLabel);
+        inputPanel.add(departureTimeField);
+        inputPanel.add(dayLabel);
+        inputPanel.add(dayField);
+
+// Create a panel for the buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(addButton);
+        buttonPanel.add(updateButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(backToDashboard);
+
+// Add the input panel and button panel to the formPanel
+        formPanel.add(inputPanel, BorderLayout.NORTH);
+        formPanel.add(Box.createVerticalStrut(10), BorderLayout.CENTER); // Add vertical space
+        formPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+// ...
+
+
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.NORTH);

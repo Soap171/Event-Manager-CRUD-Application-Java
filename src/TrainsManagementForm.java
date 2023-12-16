@@ -21,13 +21,14 @@ public class TrainsManagementForm extends JFrame {
 
         JButton addButton = new JButton("Add Train");
         JButton deleteButton = new JButton("Delete Train");
-        JButton backToDashboard = new JButton("Dashboard");
+        JButton backToDashboard = new JButton("Back To Dashboard");
 
         addButton.setFocusPainted(false);
         deleteButton.setFocusPainted(false);
         backToDashboard.setFocusPainted(false);
         addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backToDashboard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         tableModel = new DefaultTableModel();
         trainsTable = new JTable(tableModel);

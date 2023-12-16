@@ -17,7 +17,7 @@ public class Login extends JFrame {
 
 
         // Load an image and create a JLabel to display it
-        ImageIcon userIcon = new ImageIcon("img/user.jpg"); // Replace with the actual path to your image
+        ImageIcon userIcon = new ImageIcon("img/user.png"); // Replace with the actual path to your image
         Image image = userIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(image));
 
@@ -28,6 +28,8 @@ public class Login extends JFrame {
         passwordField = new JPasswordField(20);
 
         JButton loginButton = new JButton("Login");
+        loginButton.setFocusPainted(false);
+        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -75,7 +77,7 @@ public class Login extends JFrame {
 
         add(panel);
 
-        setSize(400, 300); // Adjusted height to accommodate the image and provide some spacing
+        setSize(300, 300); // Adjusted height to accommodate the image and provide some spacing
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
