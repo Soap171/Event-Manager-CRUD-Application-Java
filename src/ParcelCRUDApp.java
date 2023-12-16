@@ -44,7 +44,19 @@ public class ParcelCRUDApp extends JFrame {
         updateParcelButton = new JButton("Update Parcel");
         updateStatusButton = new JButton("Update Status");
         addParcelButton = new JButton("Add Parcel");
-        backToDashboard = new JButton("Dashboard");
+        backToDashboard = new JButton("Back To Dashboard");
+
+        deleteParcelButton.setFocusPainted(false);
+        updateParcelButton.setFocusPainted(false);
+        updateStatusButton.setFocusPainted(false);
+        addParcelButton.setFocusPainted(false);
+        backToDashboard.setFocusPainted(false);
+        deleteParcelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        updateStatusButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        updateParcelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        addParcelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backToDashboard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteParcelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Set layout for the right panel
         rightPanel.setLayout(new GridBagLayout());

@@ -23,6 +23,12 @@ public class TrainsManagementForm extends JFrame {
         JButton deleteButton = new JButton("Delete Train");
         JButton backToDashboard = new JButton("Dashboard");
 
+        addButton.setFocusPainted(false);
+        deleteButton.setFocusPainted(false);
+        backToDashboard.setFocusPainted(false);
+        addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         tableModel = new DefaultTableModel();
         trainsTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(trainsTable);
