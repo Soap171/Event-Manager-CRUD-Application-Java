@@ -13,6 +13,23 @@ public class Dashboard extends JFrame {
         super("Dashboard");
         setIcon();
 
+        // Create a label for the image
+        JLabel imageLabel = new JLabel();
+        ImageIcon originalImageIcon = new ImageIcon("img/dashboard.png");  // Update the path
+
+        int imageWidth = 800;  // Replace with your desired width
+        int imageHeight = 500; // Replace with your desired height
+        ImageIcon scaledImageIcon = new ImageIcon(originalImageIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
+        imageLabel.setIcon(scaledImageIcon);
+
+
+        // Create a panel for the image label
+        JPanel imagePanel = new JPanel();
+        imagePanel.add(imageLabel);
+
+
+
+
         JButton parcelManagementButton = new JButton("Parcel Management");
         parcelManagementButton.setFocusPainted(false);
         parcelManagementButton.setBorderPainted(false);
@@ -48,7 +65,7 @@ public class Dashboard extends JFrame {
         employeeManagementButton.setForeground(new Color(255,255,255));
         employeeManagementButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        JLabel label = new JLabel("Choose the Path you want to Manage with SwiftRail !!");
+
 
 
         parcelManagementButton.addActionListener(new ActionListener() {
@@ -110,15 +127,14 @@ public class Dashboard extends JFrame {
         panel.add(scheduleManagementButton);
         panel.add(employeeManagementButton);
 
-        JPanel panel2 = new JPanel();
-        panel2.add(label);
 
 
 
-        frame.add(panel,BorderLayout.CENTER);
-        frame.add(panel2, BorderLayout.NORTH);
 
-        frame.setSize(500, 200);
+        frame.add(panel,BorderLayout.SOUTH);
+        frame.add(imagePanel, BorderLayout.CENTER);  // Adjust the layout as needed
+
+        frame.setSize(900, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -128,14 +144,14 @@ public class Dashboard extends JFrame {
     private void openParcelManagement() {
 
         ParcelCRUDApp parcel = new ParcelCRUDApp();
-        frame.setVisible(true);
+
 
 
     }
 
     private void openFees() throws SQLException {
         FeesManagement fees = new FeesManagement();
-        frame.setVisible(true);
+
 
 
 
@@ -143,14 +159,12 @@ public class Dashboard extends JFrame {
 
     private void openTrains() {
         TrainsManagementForm trains = new TrainsManagementForm();
-        frame.setVisible(true);
 
     }
 
     private void openScheduleManagement() {
 
         SchedulesForm form = new SchedulesForm();
-        frame.setVisible(true);
 
     }
 
