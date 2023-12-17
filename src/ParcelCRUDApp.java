@@ -3,13 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.sql.Connection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import okhttp3.*;
 
 public class ParcelCRUDApp extends JFrame {
 
-    private java.sql.Connection connection;
+    private Connection connection;
     private JList<String> parcelList;
     private DefaultListModel<String> parcelListModel;
     private JTextField destinationField;
@@ -200,15 +201,12 @@ public class ParcelCRUDApp extends JFrame {
 
 
 
-    // Database connection setup
+
     private boolean connectToDatabase() {
-        String url = "jdbc:mysql://localhost:3306/swiftrail";
-        String user = "root";
-        String password = "2004";
 
         try {
-            connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the database");
+            connection = DatabaseConnection.getConnection();
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
