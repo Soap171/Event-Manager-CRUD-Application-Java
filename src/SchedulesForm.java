@@ -15,6 +15,7 @@ public class SchedulesForm extends JFrame {
     private JTextField dayField;
     private JTable schedulesTable;
 
+    private Connection connection;
     public SchedulesForm() {
         super("Schedules Management");
         setIcon();
@@ -145,7 +146,7 @@ public class SchedulesForm extends JFrame {
 
     private void populateTrainComboBox() {
         try {
-            Connection connection = DatabaseConnection.getConnection();
+             connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT name FROM Trains");
 
@@ -167,7 +168,7 @@ public class SchedulesForm extends JFrame {
         tableModel.setRowCount(0);
 
         try {
-            Connection connection = DatabaseConnection.getConnection();
+             connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT Trains.name, Schedules.arrivalTime, Schedules.departureTime, Schedules.destination FROM Schedules JOIN Trains ON Schedules.train_id = Trains.trainId");
 
@@ -202,7 +203,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DatabaseConnection.getConnection();
+             connection = DatabaseConnection.getConnection();
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
             selectTrainIdStatement.setString(1, selectedTrainName);
@@ -253,7 +254,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DatabaseConnection.getConnection();
+             connection = DatabaseConnection.getConnection();
 
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
@@ -312,7 +313,7 @@ public class SchedulesForm extends JFrame {
         }
 
         try {
-            Connection connection = DatabaseConnection.getConnection();
+             connection = DatabaseConnection.getConnection();
 
             // Get the trainId based on the selected train name
             PreparedStatement selectTrainIdStatement = connection.prepareStatement("SELECT trainId FROM Trains WHERE name = ?");
