@@ -13,12 +13,12 @@ public class Dashboard extends JFrame {
         super("Dashboard");
         setIcon();
 
-        // Create a label for the image
-        JLabel imageLabel = new JLabel();
-        ImageIcon originalImageIcon = new ImageIcon("img/dashboard.png");  // Update the path
 
-        int imageWidth = 800;  // Replace with your desired width
-        int imageHeight = 500; // Replace with your desired height
+        JLabel imageLabel = new JLabel();
+        ImageIcon originalImageIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/dashboard.png");
+
+        int imageWidth = 800;
+        int imageHeight = 500;
         ImageIcon scaledImageIcon = new ImageIcon(originalImageIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
         imageLabel.setIcon(scaledImageIcon);
 
@@ -121,7 +121,7 @@ public class Dashboard extends JFrame {
 
 
         frame.add(panel,BorderLayout.SOUTH);
-        frame.add(imagePanel, BorderLayout.CENTER);  // Adjust the layout as needed
+        frame.add(imagePanel, BorderLayout.CENTER);
 
         frame.setSize(900, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -158,7 +158,7 @@ public class Dashboard extends JFrame {
     }
 
     private void setIcon() {
-        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        ImageIcon frameIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/SwiftRail.png");
         frame.setIconImage(frameIcon.getImage());
     }
 

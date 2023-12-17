@@ -21,14 +21,14 @@ public class ParcelCRUDApp extends JFrame {
     private JButton deleteParcelButton;
     private JButton updateParcelButton;
     private JButton updateStatusButton;
-    private JButton addParcelButton;  // New button for adding a parcel
+    private JButton addParcelButton;
 
-    private JPanel rightPanel;  // Assuming you have a JPanel named rightPanel
+    private JPanel rightPanel;
     private JTextField searchField;
     private JButton searchButton;
     private JButton backToDashboard;
     public ParcelCRUDApp() {
-        rightPanel = new JPanel(); // Instantiate rightPanel
+        rightPanel = new JPanel();
         setIcon();
 
         // Initialize parcels components
@@ -114,7 +114,7 @@ public class ParcelCRUDApp extends JFrame {
         // Set up event listener for the search button
         searchButton.addActionListener(e -> searchParcel());
 
-        // Other initialization code...
+
 
         // Set layout for the main frame
         setLayout(new BorderLayout());
@@ -144,7 +144,7 @@ public class ParcelCRUDApp extends JFrame {
     private void addRow(JPanel panel, GridBagConstraints gbc, JComponent label, JComponent component) {
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.gridwidth = 1; // Reset gridwidth to default value
+        gbc.gridwidth = 1;
         panel.add(label, gbc);
 
         gbc.gridx = 1;
@@ -245,7 +245,7 @@ public class ParcelCRUDApp extends JFrame {
                 return i; // Found the parcel with the specified ID
             }
         }
-        return -1; // Parcel not found
+        return -1;
     }
 
     private void deleteParcel() {
@@ -466,7 +466,7 @@ public class ParcelCRUDApp extends JFrame {
     }
 
     private void setIcon() {
-        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        ImageIcon frameIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/SwiftRail.png");
         setIconImage(frameIcon.getImage());
     }
 

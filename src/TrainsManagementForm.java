@@ -138,7 +138,7 @@ public class TrainsManagementForm extends JFrame {
                 preparedStatement.setString(1, trainName);
                 preparedStatement.executeUpdate();
 
-                // Refresh the table after adding a train
+                // Refresh the table
                 fetchAndPopulateTable();
 
                 JOptionPane.showMessageDialog(this, "Train added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -168,7 +168,7 @@ public class TrainsManagementForm extends JFrame {
                 preparedStatement.executeUpdate();
             }
 
-            // Refresh the table after deleting a train
+            // Refresh the table
             fetchAndPopulateTable();
 
             JOptionPane.showMessageDialog(this, "Train deleted successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -179,7 +179,7 @@ public class TrainsManagementForm extends JFrame {
     }
 
     private void setIcon() {
-        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        ImageIcon frameIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/SwiftRail.png");
         setIconImage(frameIcon.getImage());
     }
 

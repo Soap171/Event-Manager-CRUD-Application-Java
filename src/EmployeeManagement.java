@@ -24,7 +24,7 @@ public class EmployeeManagement extends JFrame {
     public EmployeeManagement() throws SQLException {
         super("Employee Management");
 
-        // Initialize the connection in the constructor using the DatabaseConnection class
+
         connection = DatabaseConnection.getConnection();
 
         JLabel nicLabel = new JLabel("NIC:");
@@ -170,7 +170,7 @@ public class EmployeeManagement extends JFrame {
     }
 
     private void setIcon() {
-        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        ImageIcon frameIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/SwiftRail.png");
         setIconImage(frameIcon.getImage());
     }
 
@@ -372,11 +372,7 @@ public class EmployeeManagement extends JFrame {
                     throw new RuntimeException(e);
                 }
 
-                // Add a shutdown hook to close the connection when the application exits
-                EmployeeManagement finalEmployeeManagement = employeeManagement;
-                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    finalEmployeeManagement.closeConnection();
-                }));
+
             }
         });
     }

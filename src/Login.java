@@ -11,6 +11,7 @@ public class Login extends JFrame {
 
     private JTextField userNameField;
     private JPasswordField passwordField;
+    private Connection connection;
 
     public Login() {
         super("Login");
@@ -90,7 +91,7 @@ public class Login extends JFrame {
 
     private boolean connectToDatabase() {
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             System.out.println("Connected to the database");
             return true;
         } catch (SQLException e) {
@@ -104,7 +105,7 @@ public class Login extends JFrame {
         if (connectToDatabase()) {
             try {
                 String selectQuery = "SELECT * FROM Admin WHERE userName = ? and password = ?";
-                try (Connection connection = DatabaseConnection.getConnection();
+                try (
                      PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
                     String username = userNameField.getText();

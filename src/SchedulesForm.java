@@ -101,11 +101,11 @@ public class SchedulesForm extends JFrame {
             }
         });
 
-        // ...
+
 
         JPanel formPanel = new JPanel(new BorderLayout());
 
-// Create a panel for the input fields
+         //  panel for the input fields
         JPanel inputPanel = new JPanel(new GridLayout(6, 2));
         inputPanel.add(trainLabel);
         inputPanel.add(trainComboBox);
@@ -116,19 +116,18 @@ public class SchedulesForm extends JFrame {
         inputPanel.add(dayLabel);
         inputPanel.add(dayField);
 
-// Create a panel for the buttons
+      //  panel for the buttons
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(backToDashboard);
 
-// Add the input panel and button panel to the formPanel
+     // Add the input panel and button panel to the formPanel
         formPanel.add(inputPanel, BorderLayout.NORTH);
         formPanel.add(Box.createVerticalStrut(10), BorderLayout.CENTER); // Add vertical space
         formPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-// ...
 
 
 
@@ -339,7 +338,7 @@ public class SchedulesForm extends JFrame {
             populateSchedulesTable();
             connection.close();
 
-            // Clear the fields after deleting a schedule
+            // Clear the fields
             arrivalTimeField.setText("");
             departureTimeField.setText("");
             dayField.setText("");
@@ -353,7 +352,7 @@ public class SchedulesForm extends JFrame {
     }
 
     private void setIcon() {
-        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        ImageIcon frameIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/SwiftRail.png");
         setIconImage(frameIcon.getImage());
     }
 

@@ -13,14 +13,14 @@ public class FeesManagement extends JFrame {
     private JTextField destinationField, firstClassFeeField, secondClassFeeField, thirdClassFeeField;
     private JTextField searchField;
     private JButton addButton, updateButton, deleteButton, searchButton;
-    private JTable feeTable; // Declare feeTable as an instance variable
+    private JTable feeTable;
     private Connection connection;
 
     public FeesManagement() throws SQLException {
         super("Fees Management");
         setIcon();
 
-        // Initialize the connection in the constructor using the DatabaseConnection class
+
         connection = DatabaseConnection.getConnection();
 
         JLabel destinationLabel = new JLabel("Destination:");
@@ -40,7 +40,7 @@ public class FeesManagement extends JFrame {
         searchButton = new JButton("Search By Destination Name");
         JButton backToDashboard = new JButton("Back To Dashboard");
 
-        // Set the preferred size for the buttons
+
         Dimension buttonSize = new Dimension(150, 18);
         Dimension buttonSize1 = new Dimension(200, 18);
         addButton.setPreferredSize(buttonSize);
@@ -334,7 +334,7 @@ public class FeesManagement extends JFrame {
     }
 
     private void setIcon() {
-        ImageIcon frameIcon = new ImageIcon("img/SwiftRail.png");
+        ImageIcon frameIcon = new ImageIcon("D:/EAD/EventCRUDApp/img/SwiftRail.png");
         setIconImage(frameIcon.getImage());
     }
 
