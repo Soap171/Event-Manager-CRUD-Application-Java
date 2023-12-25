@@ -258,7 +258,7 @@ public class FeesManagement extends JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) feeTable.getModel();
         tableModel.setRowCount(0);
 
-        int selectedRow = -1; // Added to keep track of the selected row
+        int selectedRow = -1;
 
         try {
             PreparedStatement searchStatement = connection.prepareStatement("SELECT * FROM Fees WHERE LOWER(destination) LIKE LOWER(?)");
